@@ -1,2 +1,8 @@
 .dart_tool
 build
+data/.flutter-plugins
+data/.flutter-plugins-dependencies
+.flutter-plugins-dependencies
+.flutter-plugins
+pubspec.lock
+schedule_booking.iml

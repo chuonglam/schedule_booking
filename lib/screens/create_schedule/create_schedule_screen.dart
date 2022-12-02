@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
-import 'package:schedule_booking/common/utils.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_popup.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
@@ -13,7 +13,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
   CreateScheduleScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final bool isLargeScreen = Utils.isLargeScreen(context);
+    final bool isMediumOrLargeScreen = !context.isSmallScreen;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,7 +38,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                       child: UsersPicker(
                         key: _key,
                         onTap: (schedule) {
-                          if (isLargeScreen) {
+                          if (isMediumOrLargeScreen) {
                             controller.selectSchedule(schedule);
                             return;
                           }
@@ -49,7 +49,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                   ],
                 ),
               ),
-              if (isLargeScreen) ...[
+              if (isMediumOrLargeScreen) ...[
                 Expanded(
                   flex: 4,
                   child: Column(

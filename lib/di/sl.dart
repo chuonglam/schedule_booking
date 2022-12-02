@@ -6,7 +6,7 @@ import 'sl.config.dart';
 
 final GetIt sl = GetIt.instance;
 @InjectableInit(initializerName: r'$initGetIt')
-void configureDependencies() {
-  configureDataDependencies(sl);
-  $initGetIt(sl);
+Future<void> configureDependencies() async {
+  await configureDataDependencies(sl);
+  sl.$initGetIt();
 }

@@ -1,6 +1,13 @@
-import '../common/app_result.dart';
-import '../entities/user.dart';
+import 'package:data/src/common/app_result.dart';
+import 'package:data/src/entities/user.dart';
 
 abstract class AuthRepository {
   Future<AppResult<User>> login(String email, String password);
+
+  Future<AppResult<User>> signUp({
+    required String username,
+    required String password,
+    required String displayName,
+    required String email,
+  });
 }

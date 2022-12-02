@@ -5,7 +5,6 @@ import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/auth_screen.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_screen.dart';
 import 'package:schedule_booking/screens/home/home_screen.dart';
-import 'package:schedule_booking/common/utils.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,24 +14,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final bool isLargeScreen = Utils.isLargeScreen(context);
+    final bool isMediumOrLargeScreen = !context.isSmallScreen;
+    final bool isLargeScreen = context.isLargeScreen;
     return Scaffold(
       appBar: AppBar(
-        leading: isLargeScreen ? null : const Center(child: CircleAvatar()),
+        leading:
+            isMediumOrLargeScreen ? null : const Center(child: CircleAvatar()),
         title: Text(DateTime.now().format(formatter: 'EEEE, MMM dd yyyy')),
         centerTitle: true,
         actions: [
-          if (isLargeScreen) const CircleAvatar(),
+          if (isMediumOrLargeScreen) const CircleAvatar(),
           const SizedBox(width: 16),
         ],
       ),
       backgroundColor: Colors.white,
       body: Row(
         children: [
-          if (isLargeScreen)
+          if (isMediumOrLargeScreen)
             NavigationRail(
               extended: isLargeScreen,
               elevation: 1,
@@ -64,11 +65,11 @@ class _MainScreenState extends State<MainScreen> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                GetX<AuthController>(builder: (controller) {
-                  if (controller.isLoggedIn) {
-                    return const UserScheduleScreen();
+                GetX<AuthController>(builder: (authController) {
+                  if (authController.currentUser != null) {
+                    return UserScheduleScreen();
                   }
-                  return const AuthScreen();
+                  return AuthScreen();
                 }),
                 CreateScheduleScreen(),
                 Container(),
@@ -77,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: isLargeScreen
+      bottomNavigationBar: isMediumOrLargeScreen
           ? null
           : BottomNavigationBar(
               currentIndex: _selectedIndex,

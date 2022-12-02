@@ -18,3 +18,11 @@ class DefaultError extends AppError {
 class InvalidLoginCredentials extends AppError {
   InvalidLoginCredentials([super.message = 'Invalid login credentials']);
 }
+
+class UsernameAlreadyExists extends AppError {
+  UsernameAlreadyExists([super.message = 'Username exists']);
+}
+
+class EmailAlreadyUsed extends AppError {
+  EmailAlreadyUsed([super.message = 'Email used']);
+}

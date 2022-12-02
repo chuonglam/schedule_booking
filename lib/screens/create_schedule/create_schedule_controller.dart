@@ -20,11 +20,11 @@ class CreateScheduleController extends GetxController
       change(
         [
           Schedule(
-            user: User(id: '1', username: '1'),
+            user: User(id: '1', username: '1', email: ''),
             schedules: [15],
           ),
           Schedule(
-            user: User(id: '2', username: '2'),
+            user: User(id: '2', username: '2', email: ''),
             schedules: [1, 3],
           ),
         ],
