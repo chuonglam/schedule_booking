@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
+import 'package:schedule_booking/screens/auth/login_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -148,6 +149,7 @@ class _SignupFormState extends State<_SignupForm> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                controller: _confirmPasswordController,
                 decoration: const InputDecoration(
                   hintText: "Confirm password",
                 ),
@@ -193,13 +195,15 @@ class _SignupFormState extends State<_SignupForm> {
     if (!isFormValid) {
       return;
     }
-    await authController.signUp(
+    final success = await authController.signUp(
       username: username!,
       password: password!,
       displayName: displayName!,
       email: email!,
     );
-    //todo: navigate if success
-    // Get.offNamedUntil('$MainScreen', (route) => true);
+    if (!success) {
+      return;
+    }
+    Get.offNamedUntil('$LoginScreen', (route) => true);
   }
 }

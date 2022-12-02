@@ -63,7 +63,6 @@ class AuthController extends GetxController
     );
     isLoading = false;
     if (result.success) {
-      _currentUser(result.data);
       return true;
     }
     error = result.error?.message;
