@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
 import 'package:schedule_booking/common/styles.dart';
+import 'package:schedule_booking/params/signup_params.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/login_screen.dart';
+import 'package:schedule_booking/screens/auth/signup_controller.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -74,7 +76,7 @@ class _SignupFormState extends State<_SignupForm> {
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
-                        Get.back();
+                        Get.offNamedUntil('$LoginScreen', (route) => true);
                       },
                     ),
                   ),
@@ -91,12 +93,12 @@ class _SignupFormState extends State<_SignupForm> {
               style: Theme.of(context).textTheme.caption,
             ),
             const SizedBox(height: 16),
-            GetX<AuthController>(
-              builder: (authController) {
-                if (authController.error != null) {
+            GetX<SignUpController>(
+              builder: (signUpController) {
+                if (signUpController.error != null) {
                   return Center(
                     child: Text(
-                      authController.error!,
+                      signUpController.error!,
                       style: AppStyles.medium.copyWith(
                         color: kErrorColor,
                         fontSize: 12,
@@ -114,6 +116,7 @@ class _SignupFormState extends State<_SignupForm> {
                 controller: _usernameController,
                 decoration: const InputDecoration(
                   hintText: "Username",
+                  prefixIcon: Icon(Icons.abc),
                 ),
               ),
             ),
@@ -123,6 +126,7 @@ class _SignupFormState extends State<_SignupForm> {
                 controller: _displayNameController,
                 decoration: const InputDecoration(
                   hintText: "Display name",
+                  prefixIcon: Icon(Icons.person),
                 ),
               ),
             ),
@@ -132,6 +136,7 @@ class _SignupFormState extends State<_SignupForm> {
                 controller: _emailController,
                 decoration: const InputDecoration(
                   hintText: "Email",
+                  prefixIcon: Icon(Icons.email),
                 ),
               ),
             ),
@@ -141,6 +146,7 @@ class _SignupFormState extends State<_SignupForm> {
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   hintText: "Password",
+                  prefixIcon: Icon(Icons.password),
                 ),
                 obscureText: true,
                 obscuringCharacter: "*",
@@ -152,6 +158,7 @@ class _SignupFormState extends State<_SignupForm> {
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(
                   hintText: "Confirm password",
+                  prefixIcon: Icon(Icons.password),
                 ),
                 obscureText: true,
                 obscuringCharacter: "*",
@@ -161,13 +168,13 @@ class _SignupFormState extends State<_SignupForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GetX<AuthController>(
-                  builder: (authController) {
+                GetX<SignUpController>(
+                  builder: (signUpController) {
                     return ElevatedButton(
-                      child: authController.isLoading
+                      child: signUpController.isLoading
                           ? const CupertinoActivityIndicator()
                           : const Text("Sign up"),
-                      onPressed: () => _onSignUpPressed(authController),
+                      onPressed: () => _onSignUpPressed(signUpController),
                     );
                   },
                 ),
@@ -179,27 +186,23 @@ class _SignupFormState extends State<_SignupForm> {
     );
   }
 
-  void _onSignUpPressed(AuthController authController) async {
-    final String? username = _usernameController?.text.trim();
-    final String? password = _passwordController?.text.trim();
-    final String? confirmPassword = _confirmPasswordController?.text.trim();
-    final String? displayName = _displayNameController?.text.trim();
-    final String? email = _emailController?.text.trim();
-    final bool isFormValid = authController.isFormValid(
-      username: username,
-      password: password,
-      confirm: confirmPassword,
-      displayName: displayName,
-      email: email,
+  void _onSignUpPressed(SignUpController signUpController) async {
+    final SignUpParams params = SignUpParams(
+      username: _usernameController?.text.trim(),
+      password: _passwordController?.text.trim(),
+      confirmPassword: _confirmPasswordController?.text.trim(),
+      displayName: _displayNameController?.text.trim(),
+      email: _emailController?.text.trim(),
     );
+    final bool isFormValid = signUpController.isFormValid(params);
     if (!isFormValid) {
       return;
     }
-    final success = await authController.signUp(
-      username: username!,
-      password: password!,
-      displayName: displayName!,
-      email: email!,
+    final success = await signUpController.signUp(
+      username: params.username!,
+      password: params.password!,
+      displayName: params.displayName!,
+      email: params.email!,
     );
     if (!success) {
       return;

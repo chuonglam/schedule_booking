@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:data/data.dart';
 import 'package:data/src/models/user_model.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +17,6 @@ class AuthService {
     user.set('displayName', displayName);
     final response = await user.signUp();
     if (response.success) {
-      // ignore: invalid_use_of_protected_member
       return UserModel.fromJson((response.result as ParseUser).toJson());
     }
     if (response.error?.code == 202) {
