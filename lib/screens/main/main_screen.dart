@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
+import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/auth_screen.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_screen.dart';
@@ -43,20 +45,34 @@ class _MainScreenState extends State<MainScreen> {
                   _selectedIndex = value;
                 });
               },
-              destinations: const [
+              destinations: [
                 NavigationRailDestination(
-                  icon: Icon(Icons.home),
-                  label: Text(
-                    "Your schedule",
+                  icon: SvgPicture.asset(
+                    "assets/svg/ic_overview.svg",
+                    width: 20,
+                    height: 20,
+                  ),
+                  label: const Text("Your schedule"),
+                  selectedIcon: SvgPicture.asset(
+                    "assets/svg/ic_overview.svg",
+                    color: AppStyles.mainColor,
+                    width: 20,
+                    height: 20,
                   ),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.add),
-                  label: Text("Create schedule"),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.settings),
-                  label: Text("Setting"),
+                  icon: SvgPicture.asset(
+                    "assets/svg/ic_schedule.svg",
+                    width: 20,
+                    height: 20,
+                  ),
+                  label: const Text("Create schedule"),
+                  selectedIcon: SvgPicture.asset(
+                    "assets/svg/ic_schedule.svg",
+                    color: AppStyles.mainColor,
+                    width: 20,
+                    height: 20,
+                  ),
                 ),
               ],
               selectedIndex: _selectedIndex,
@@ -67,12 +83,11 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 GetX<AuthController>(builder: (authController) {
                   if (authController.currentUser != null) {
-                    return UserScheduleScreen();
+                    return const UserScheduleScreen();
                   }
-                  return AuthScreen();
+                  return const AuthScreen();
                 }),
                 CreateScheduleScreen(),
-                Container(),
               ],
             ),
           ),
@@ -90,10 +105,6 @@ class _MainScreenState extends State<MainScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.add),
                   label: "Create schedule",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: "Settings",
                 ),
               ],
               onTap: (value) {

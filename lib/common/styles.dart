@@ -33,18 +33,18 @@ class AppStyles {
   );
 
   static const MaterialColor mainColor = MaterialColor(
-    0xFF1676F3,
+    0xFF4A2E8C,
     {
-      50: Color(0xFF1676F3),
-      100: Color(0xFF1676F3),
-      200: Color(0xFF1676F3),
-      300: Color(0xFF1676F3),
-      400: Color(0xFF1676F3),
-      500: Color(0xFF1676F3),
-      600: Color(0xFF1676F3),
-      700: Color(0xFF1676F3),
-      800: Color(0xFF1676F3),
-      900: Color(0xFF1676F3)
+      50: Color(0xFF4A2E8C),
+      100: Color(0xFF4A2E8C),
+      200: Color(0xFF4A2E8C),
+      300: Color(0xFF4A2E8C),
+      400: Color(0xFF4A2E8C),
+      500: Color(0xFF4A2E8C),
+      600: Color(0xFF4A2E8C),
+      700: Color(0xFF4A2E8C),
+      800: Color(0xFF4A2E8C),
+      900: Color(0xFF4A2E8C)
     },
   );
 
@@ -75,7 +75,7 @@ class AppStyles {
           fontSize: 14,
           color: AppStyles.mainColor,
         ),
-        unselectedLabelTextStyle: AppStyles.medium.copyWith(
+        unselectedLabelTextStyle: AppStyles.regular.copyWith(
           color: const Color(0xff757575),
           fontSize: 14,
         ),
