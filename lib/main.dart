@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       getPages: AppRouter.pages,
       initialBinding: AppBinding(),
       theme: AppStyles.theme(context),
-      initialRoute: '$MainScreen',
+      initialRoute: '/$MainScreen',
     );
   }
 }

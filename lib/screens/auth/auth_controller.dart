@@ -25,22 +25,24 @@ class AuthController extends GetxController with LoadingController {
     return error == null;
   }
 
-  void login({
+  Future<bool> login({
     required String username,
     required String password,
   }) async {
     if (isLoading) {
-      return;
+      return false;
     }
     isLoading = true;
     error = null;
     final res = await _authRepository.login(username, password);
     isLoading = false;
     if (res.success) {
+      error = null;
       _currentUser(res.data);
-      return;
+      return true;
     }
     error = res.error?.message;
+    return false;
   }
 
   void logout() {

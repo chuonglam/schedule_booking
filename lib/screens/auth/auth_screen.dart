@@ -11,7 +11,7 @@ class AuthScreen extends StatelessWidget {
       child: ElevatedButton(
         child: const Text("Sorry! You need to login to view this"),
         onPressed: () {
-          Get.toNamed('$LoginScreen');
+          Get.toNamed('/$LoginScreen');
         },
       ),
     );

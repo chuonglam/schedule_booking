@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/params/signup_params.dart';
-import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/login_screen.dart';
 import 'package:schedule_booking/screens/auth/signup_controller.dart';
+import 'package:schedule_booking/screens/main/main_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -76,7 +76,7 @@ class _SignupFormState extends State<_SignupForm> {
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
-                        Get.offNamedUntil('$LoginScreen', (route) => true);
+                        Get.offNamedUntil('/$LoginScreen', (route) => false);
                       },
                     ),
                   ),
@@ -85,7 +85,16 @@ class _SignupFormState extends State<_SignupForm> {
                   "Create an account",
                   style: AppStyles.bold.copyWith(fontSize: 24),
                 ),
-                const Spacer(),
+                Expanded(
+                    child: Container(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      Get.offNamedUntil('/$MainScreen', (route) => false);
+                    },
+                  ),
+                )),
               ],
             ),
             Text(
@@ -93,23 +102,6 @@ class _SignupFormState extends State<_SignupForm> {
               style: Theme.of(context).textTheme.caption,
             ),
             const SizedBox(height: 16),
-            GetX<SignUpController>(
-              builder: (signUpController) {
-                if (signUpController.error != null) {
-                  return Center(
-                    child: Text(
-                      signUpController.error!,
-                      style: AppStyles.medium.copyWith(
-                        color: kErrorColor,
-                        fontSize: 12,
-                        height: 1.2,
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -180,6 +172,27 @@ class _SignupFormState extends State<_SignupForm> {
                 ),
               ],
             ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GetX<SignUpController>(
+                  builder: (signUpController) {
+                    if (signUpController.error != null) {
+                      return Text(
+                        signUpController.error!,
+                        style: AppStyles.medium.copyWith(
+                          color: kErrorColor,
+                          fontSize: 12,
+                          height: 1.2,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -207,6 +220,6 @@ class _SignupFormState extends State<_SignupForm> {
     if (!success) {
       return;
     }
-    Get.offNamedUntil('$LoginScreen', (route) => true);
+    Get.offNamedUntil('/$LoginScreen', (route) => false);
   }
 }

@@ -29,19 +29,19 @@ class SignUpParams with Validator {
           ],
         ),
         ValidationField(
-          fieldName: 'Password',
-          fieldValue: password,
-          validations: [
-            RequiredField(),
-            ValidLength(minLength: 5, maxLength: 15),
-          ],
-        ),
-        ValidationField(
           fieldName: 'Email',
           fieldValue: email,
           validations: [
             RequiredField(),
             ValidEmail(),
+          ],
+        ),
+        ValidationField(
+          fieldName: 'Password',
+          fieldValue: password,
+          validations: [
+            RequiredField(),
+            ValidLength(minLength: 5, maxLength: 15),
           ],
         ),
         ValidationField(

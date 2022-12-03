@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
@@ -64,7 +65,7 @@ class _LoginFormState extends State<_LoginForm> {
                   child: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
-                      Get.offNamedUntil('$MainScreen', (route) => true);
+                      Get.offNamedUntil('/$MainScreen', (route) => false);
                     },
                   ),
                 ),
@@ -82,23 +83,6 @@ class _LoginFormState extends State<_LoginForm> {
             style: Theme.of(context).textTheme.caption,
           ),
           const SizedBox(height: 16),
-          GetX<AuthController>(
-            builder: (authController) {
-              if (authController.error != null) {
-                return Center(
-                  child: Text(
-                    authController.error!,
-                    style: AppStyles.medium.copyWith(
-                      color: kErrorColor,
-                      fontSize: 12,
-                      height: 1.2,
-                    ),
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -117,36 +101,29 @@ class _LoginFormState extends State<_LoginForm> {
                 hintText: "Password",
                 prefixIcon: Icon(Icons.password),
               ),
+              obscureText: true,
+              obscuringCharacter: '*',
             ),
           ),
           const SizedBox(height: 16),
           Row(
             children: [
               const Spacer(),
-              GetBuilder<AuthController>(builder: (authController) {
+              GetX<AuthController>(builder: (authController) {
                 return ElevatedButton(
                   onPressed: () {
-                    final params = LoginParams(
-                      username: _usernameController?.text ?? '',
-                      password: _passwordController?.text ?? '',
-                    );
-                    final bool isFormValid = authController.isFormValid(params);
-                    if (!isFormValid) {
-                      return;
-                    }
-                    authController.login(
-                      username: params.username!,
-                      password: params.password!,
-                    );
+                    _onLoginPressed(authController);
                   },
-                  child: const Text("Login"),
+                  child: authController.isLoading
+                      ? const CupertinoActivityIndicator()
+                      : const Text("Login"),
                 );
               }),
               Expanded(
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      Get.toNamed('$SignupScreen');
+                      Get.toNamed('/$SignupScreen');
                     },
                     child: const Text("Sign up"),
                   ),
@@ -154,8 +131,49 @@ class _LoginFormState extends State<_LoginForm> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              GetX<AuthController>(
+                builder: (authController) {
+                  if (authController.error != null) {
+                    return Center(
+                      child: Text(
+                        authController.error!,
+                        style: AppStyles.medium.copyWith(
+                          color: kErrorColor,
+                          fontSize: 12,
+                          height: 1.2,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
+  }
+
+  void _onLoginPressed(AuthController authController) async {
+    final params = LoginParams(
+      username: _usernameController?.text ?? '',
+      password: _passwordController?.text ?? '',
+    );
+    final bool isFormValid = authController.isFormValid(params);
+    if (!isFormValid) {
+      return;
+    }
+    final bool success = await authController.login(
+      username: params.username!,
+      password: params.password!,
+    );
+    if (!success) {
+      return;
+    }
+    Get.offNamedUntil('/$MainScreen', (route) => false);
   }
 }

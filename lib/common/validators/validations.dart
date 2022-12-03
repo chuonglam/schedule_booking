@@ -36,7 +36,7 @@ class ValidEmail extends Validation {
 class ValidUsername extends Validation {
   ValidUsername()
       : super(
-          errorMessage: 'is invalid',
+          errorMessage: 'should contain alphatbets/numbers & 5-15 chars long.',
           expression: (value) => value?.isValidUsername() ?? false,
         );
 }
