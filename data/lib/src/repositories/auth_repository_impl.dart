@@ -12,8 +12,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }) : _authService = authService;
 
   @override
-  Future<AppResult<User>> login(String email, String password) {
-    throw UnimplementedError();
+  Future<AppResult<User>> login(String username, String password) async {
+    try {
+      final response =
+          await _authService.login(username: username, password: password);
+      return AppResult.success(response.toUser());
+    } on AppError catch (e) {
+      return AppResult.error(e);
+    } on Exception catch (e) {
+      return AppResult.error(DefaultError());
+    }
   }
 
   @override

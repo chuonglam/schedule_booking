@@ -7,6 +7,21 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 @Singleton()
 class AuthService {
+  Future<UserModel> login({
+    required String username,
+    required String password,
+  }) async {
+    final ParseUser user = ParseUser.createUser(username, password);
+    final response = await user.login();
+    if (response.success) {
+      return UserModel.fromJson((response.result as ParseUser).toJson());
+    }
+    if (response.error?.code == 101) {
+      throw InvalidLoginCredentials();
+    }
+    throw DefaultError();
+  }
+
   Future<UserModel> signUp({
     required String username,
     required String password,
