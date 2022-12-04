@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:data/src/di/sl.config.dart';
 
 @InjectableInit(initializerName: r'$initDataGetIt')
-Future<void> configureDataDependencies(final GetIt getIt) async {
+Future<void> configureDataDependencies(
+  final GetIt getIt,
+) async {
   await DataClient.init();
   getIt.$initDataGetIt();
 }

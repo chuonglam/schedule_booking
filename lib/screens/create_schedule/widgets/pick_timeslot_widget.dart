@@ -1,47 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class TimeslotPicker extends StatelessWidget {
-  const TimeslotPicker({
-    super.key,
-    this.onTap,
-  });
-  final void Function(int)? onTap;
+class PickTimeSlotWidget extends StatelessWidget {
+  const PickTimeSlotWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final bool isMediumOrLargeScreen = !context.isSmallScreen;
-    final int curHour = DateTime.now().hour;
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: isMediumOrLargeScreen ? 4 : 1,
-        childAspectRatio: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-      ),
-      itemBuilder: (c, i) =>
-          GetX<CreateScheduleController>(builder: (controller) {
-        final bool notAvailable =
-            controller.selectedSchedule?.schedules.contains(i + curHour) ==
-                    true ||
-                curHour > (i + curHour);
-        return Card(
-          color: notAvailable ? const Color(0xffEAEAEA) : null,
-          child: InkWell(
-            onTap: notAvailable
-                ? null
-                : () {
-                    onTap?.call(i + curHour);
-                  },
-            borderRadius: BorderRadius.circular(5),
-            child: Center(
-              child: Text('${(i + curHour).toString().padLeft(2, '0')}:00'),
-            ),
-          ),
+    return GetX<CreateScheduleController>(
+      builder: (controller) {
+        final DateTime now = DateTime.now();
+        return SfCalendar(
+          dataSource: controller.source,
+          view: CalendarView.day,
+          specialRegions: controller.regions
+              .map((e) => TimeRegion(
+                    startTime: e.startDate,
+                    endTime: e.endDate,
+                    color: Colors.redAccent,
+                  ))
+              .toList(),
+          viewNavigationMode: ViewNavigationMode.none,
+          cellEndPadding: 0,
+          timeSlotViewSettings: const TimeSlotViewSettings(
+              // startHour: DateTime.now().hour.toDouble(),
+              ),
+          allowDragAndDrop: true,
+          initialDisplayDate: controller.selectedDate,
+          minDate: now,
+          onDragEnd: (value) {
+            if (value.droppingTime == null) {
+              return;
+            }
+            controller.selectedDate = value.droppingTime!;
+          },
         );
-      }),
-      itemCount: 24 - curHour,
+      },
     );
+  }
+}
+
+class AppointmentDataSource extends CalendarDataSource {
+  AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
   }
 }

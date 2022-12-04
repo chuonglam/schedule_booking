@@ -69,7 +69,7 @@ class AppStyles {
           fontWeight: FontWeight.bold,
         ),
       ),
-      textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+      textTheme: GoogleFonts.robotoTextTheme(),
       navigationRailTheme: NavigationRailThemeData(
         selectedLabelTextStyle: AppStyles.medium.copyWith(
           fontSize: 14,

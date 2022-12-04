@@ -81,13 +81,15 @@ class _MainScreenState extends State<MainScreen> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                GetX<AuthController>(builder: (authController) {
-                  if (authController.currentUser != null) {
-                    return const UserScheduleScreen();
-                  }
-                  return const AuthScreen();
-                }),
-                CreateScheduleScreen(),
+                GetX<AuthController>(
+                  builder: (authController) {
+                    if (authController.currentUser != null) {
+                      return const UserScheduleScreen();
+                    }
+                    return const AuthScreen();
+                  },
+                ),
+                const CreateScheduleScreen(),
               ],
             ),
           ),

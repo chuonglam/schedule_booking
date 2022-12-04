@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:schedule_booking/common/exts.dart';
 
 class CreateSchedulePopup extends StatelessWidget {
@@ -14,15 +15,29 @@ class CreateSchedulePopup extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(Icons.timeline),
+            SvgPicture.asset(
+              'assets/svg/ic_calendar.svg',
+              color: Color(0xff757575),
+            ),
             const SizedBox(width: 16),
-            Text("${DateTime.now().format()} 00:00pm - 6:00pm"),
+            Text("${DateTime.now().format()}"),
           ],
         ),
         const SizedBox(height: 16),
         Row(
-          children: const [
-            Icon(Icons.people),
+          children: [
+            SvgPicture.asset(
+              'assets/svg/ic_time.svg',
+              color: Color(0xff757575),
+            ),
+            const SizedBox(width: 16),
+            Text("00:00pm - 6:00pm"),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            SvgPicture.asset('assets/svg/ic_chat.svg'),
             SizedBox(width: 16),
             Text("User name 1"),
           ],

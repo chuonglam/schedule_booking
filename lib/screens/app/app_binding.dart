@@ -7,9 +7,18 @@ class AppBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
-      () => AuthController(authRepository: sl(), userRepository: sl()),
+      () => AuthController(
+        authRepository: sl(),
+        userRepository: sl(),
+      ),
       fenix: true,
     );
-    Get.lazyPut(() => CreateScheduleController(), fenix: true);
+    Get.lazyPut(
+      () => CreateScheduleController(
+        scheduleRepository: sl(),
+        userRepository: sl(),
+      ),
+      fenix: true,
+    );
   }
 }

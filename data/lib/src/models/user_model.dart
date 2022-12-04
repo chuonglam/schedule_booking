@@ -24,8 +24,8 @@ class UserModel {
     return UserModel(
       id: json['objectId'],
       username: json['username'],
-      displayName: json['displayName'],
-      email: json['email'],
+      displayName: json['displayName'] ?? '',
+      email: json['email'] ?? '',
     );
   }
 }

@@ -19,6 +19,19 @@ class AuthController extends GetxController with LoadingController {
 
   bool get isLoggedIn => _currentUser.value != null;
 
+  @override
+  void onInit() {
+    super.onInit();
+    _init();
+  }
+
+  void _init() async {
+    final result = await _userRepository.getCurrentUser();
+    if (result.success) {
+      _currentUser.value = result.data;
+    }
+  }
+
   bool isFormValid(Validator validator) {
     final errorMess = validator.validate();
     error = errorMess;

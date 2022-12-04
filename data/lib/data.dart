@@ -5,6 +5,7 @@ export 'package:data/src/entities/schedule.dart';
 
 export 'package:data/src/repositories/auth_repository.dart';
 export 'package:data/src/repositories/user_repository.dart';
+export 'package:data/src/repositories/schedule_repository.dart';
 
 export 'package:data/src/di/sl.dart';
 

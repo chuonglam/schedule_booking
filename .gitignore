@@ -6,3 +6,4 @@ data/.flutter-plugins-dependencies
 .flutter-plugins
 pubspec.lock
 schedule_booking.iml
+.vscode/launch.json

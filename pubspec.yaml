@@ -42,6 +42,8 @@ dependencies:
   get_it: ^7.2.0
   flutter_svg: ^1.1.6
   injectable: ^2.1.0
+  syncfusion_flutter_calendar: ^20.3.59
+
   data:
     path: ./data
 

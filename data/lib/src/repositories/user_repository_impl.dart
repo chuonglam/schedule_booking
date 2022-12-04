@@ -20,4 +20,15 @@ class UserRepositoryImpl implements UserRepository {
       return AppResult.error(DefaultError());
     }
   }
+
+  @override
+  Future<AppResult<List<User>>> getUsersList() async {
+    try {
+      final data = await _userService.getUsersList(0, 50);
+      return AppResult.success(data.map((e) => e.toUser()).toList());
+    } catch (e) {
+      //todo: handle exceptions
+      return AppResult.error(DefaultError());
+    }
+  }
 }

@@ -3,14 +3,12 @@ import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_popup.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_widget.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/users_picker.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/users_list.dart';
 
 class CreateScheduleScreen extends GetView<CreateScheduleController> {
-  final GlobalKey _key = GlobalKey();
-  CreateScheduleScreen({super.key});
+  const CreateScheduleScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final bool isMediumOrLargeScreen = !context.isSmallScreen;
@@ -33,13 +31,14 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CreateScheduleForm(),
+                    CreateScheduleForm(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                    ),
                     Expanded(
-                      child: UsersPicker(
-                        key: _key,
+                      child: UsersList(
                         onTap: (schedule) {
                           if (isMediumOrLargeScreen) {
-                            controller.selectSchedule(schedule);
+                            controller.selectUser(schedule);
                             return;
                           }
                           _onTap(context);
@@ -50,35 +49,53 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                 ),
               ),
               if (isMediumOrLargeScreen) ...[
+                const SizedBox(width: 16),
+                Container(
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.arrow_right),
+                ),
                 Expanded(
                   flex: 4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 16),
-                      const Text("What time do you want to start?"),
-                      const SizedBox(height: 8),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 16.0, 0, 8),
+                        child: Text("Drag & drop to select start time"),
+                      ),
                       Expanded(
-                        child: TimeslotPicker(
-                          onTap: (startHour) {
-                            showDialog(
-                              context: context,
-                              builder: (ctx) {
-                                return AlertDialog(
-                                  title: const Text("Confirmation"),
-                                  content: const CreateSchedulePopup(),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      child: const Text("Create"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Card(
+                            color: const Color(0xffF1EEF6),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Obx(() {
+                                if (controller.selectedUser == null) {
+                                  return Container(
+                                      alignment: Alignment.center,
+                                      child: const Text("Please pick a user"));
+                                }
+                                return const PickTimeSlotWidget();
+                              }),
+                            ),
+                          ),
                         ),
                       ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.createSchedule();
+                          },
+                          child: const Text("Create"),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
@@ -98,7 +115,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
         title: Text("Pick a time slot"),
         content: SizedBox(
           width: 300,
-          child: TimeslotPicker(),
+          child: PickTimeSlotWidget(),
         ),
       ),
     );

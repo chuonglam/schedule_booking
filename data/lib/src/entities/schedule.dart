@@ -1,10 +1,13 @@
 import 'package:data/data.dart';
 
 class Schedule {
-  final User user;
-  final List<int> schedules;
+  String objectId;
+  DateTime startDate;
+  DateTime endDate;
+
   Schedule({
-    required this.user,
-    this.schedules = const [],
+    required this.objectId,
+    required this.startDate,
+    required this.endDate,
   });
 }
