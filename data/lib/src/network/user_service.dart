@@ -8,21 +8,24 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 @Singleton()
 class UserService {
   Future<UserModel?> currentUser() async {
-    final user = ParseUser.currentUser() as ParseUser?;
+    final user = await ParseUser.currentUser() as ParseUser?;
     if (user == null) {
       return null;
     }
     return UserModel.fromJson(user.toJson());
   }
 
-  Future<List<UserModel>> getUsersList(int skip, int limit) async {
+  Future<List<UserModel>> getUsersList(int skip, int limit,
+      {String? nameSearch}) async {
     final func = ParseCloudFunction("getUsers");
-    final res = await func.executeObjectFunction(
-      parameters: {
-        'limit': limit,
-        'skip': skip,
-      },
-    );
+    final Map<String, dynamic> params = {
+      'limit': limit,
+      'skip': skip,
+    };
+    if (nameSearch != null && nameSearch.isNotEmpty) {
+      params['nameSearch'] = nameSearch;
+    }
+    final res = await func.executeObjectFunction(parameters: params);
     if (res.success) {
       return (res.result['result'] as List<dynamic>)
           .map((e) => UserModel.fromJson((e as ParseUser).toJson(full: true)))

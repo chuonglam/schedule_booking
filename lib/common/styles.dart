@@ -60,13 +60,12 @@ class AppStyles {
         unselectedLabelColor: const Color(0xff757575),
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 1,
-        titleTextStyle: TextStyle(
+        titleTextStyle: semiBold.copyWith(fontSize: 18),
+        actionsIconTheme: const IconThemeData(
           color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
         ),
       ),
       textTheme: GoogleFonts.robotoTextTheme(),

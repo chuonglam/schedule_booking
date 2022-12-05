@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 
-class UsersList extends StatelessWidget {
-  const UsersList({
+class PickUserWidget extends StatelessWidget {
+  const PickUserWidget({
     Key? key,
     this.onTap,
   }) : super(key: key);
@@ -27,7 +27,7 @@ class UsersList extends StatelessWidget {
               onTap?.call(controller.users[index]);
             },
             leading: const CircleAvatar(),
-            title: Text(controller.users[index].username),
+            title: Text(controller.users[index].displayName),
             hoverColor: Theme.of(context).dividerColor,
             trailing: const Icon(Icons.keyboard_arrow_right),
           ),

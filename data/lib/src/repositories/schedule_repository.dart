@@ -1,11 +1,14 @@
 import 'package:data/data.dart';
 
 abstract class ScheduleRepository {
-  Future<void> createSchedule({
+  Future<AppResult<String>> createSchedule({
     required DateTime startDate,
     required Duration duration,
-    required String participantId,
+    String? participantId,
   });
 
   Future<AppResult<List<Schedule>>> getTimeSlots(String participantId);
+
+  Future<AppResult<List<Schedule>>> getUserTimeSlots(
+      {int limit = 0, int skip = 0});
 }

@@ -17,6 +17,7 @@ class UserModel {
       id: id,
       username: username,
       email: email,
+      displayName: displayName,
     );
   }
 

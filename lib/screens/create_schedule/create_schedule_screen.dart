@@ -5,7 +5,7 @@ import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_widget.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/users_list.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/pick_user_widget.dart';
 
 class CreateScheduleScreen extends GetView<CreateScheduleController> {
   const CreateScheduleScreen({super.key});
@@ -35,13 +35,13 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
                     Expanded(
-                      child: UsersList(
+                      child: PickUserWidget(
                         onTap: (schedule) {
                           if (isMediumOrLargeScreen) {
                             controller.updateState(selectedUser: schedule);
                             return;
                           }
-                          _onTap(context);
+                          _onTapUser(context);
                         },
                       ),
                     ),
@@ -89,9 +89,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: ElevatedButton(
-                          onPressed: () {
-                            controller.createSchedule();
-                          },
+                          onPressed: () => _onClickCreateSchedule(context),
                           child: const Text("Create"),
                         ),
                       ),
@@ -108,7 +106,24 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
     );
   }
 
-  void _onTap(BuildContext context) {
+  void _onClickCreateSchedule(BuildContext context) async {
+    final String? errorMessage = await controller.createSchedule();
+    if (errorMessage == null) {
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Create schedule failed"),
+        content: SizedBox(
+          width: 300,
+          child: Text(errorMessage),
+        ),
+      ),
+    );
+  }
+
+  void _onTapUser(BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => const AlertDialog(

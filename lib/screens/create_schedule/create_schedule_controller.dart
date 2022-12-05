@@ -36,15 +36,27 @@ class CreateScheduleController extends GetxController with LoadingController {
     endTime: DateTime.now().add(const Duration(hours: 1)),
     subject: 'Meeting',
     startTimeZone: '',
+    color: Colors.blueAccent.shade100,
     endTimeZone: '',
   ));
 
   Appointment get appointment => _appointment.value;
 
+  Worker? _onStateChanged;
   @override
   void onInit() {
     super.onInit();
-    ever<ScheduleParams>(_rxState, (value) {
+    _registerWorkers();
+  }
+
+  @override
+  void dispose() {
+    _disposeWorkers();
+    super.dispose();
+  }
+
+  void _registerWorkers() {
+    _onStateChanged = ever<ScheduleParams>(_rxState, (value) {
       _appointment.update((val) {
         final now = DateTime.now();
         val?.startTime =
@@ -56,7 +68,13 @@ class CreateScheduleController extends GetxController with LoadingController {
     });
   }
 
-  void updateState({
+  void _disposeWorkers() {
+    if (_onStateChanged?.disposed == false) {
+      _onStateChanged?.dispose();
+    }
+  }
+
+  String? updateState({
     Duration? duration,
     User? selectedUser,
     DateTime? dateTime,
@@ -69,48 +87,72 @@ class CreateScheduleController extends GetxController with LoadingController {
       selectedUser: selectedUser,
     );
     if (selectedUser != null) {
-      _rxBusyAreas.clear();
-      getTimeSlots(selectedUser.id);
+      _clearBusyAreas();
+      _getTimeSlots(selectedUser.id);
     }
+    if (dateTime != null) {
+      final timeRegion = TimeRegion(
+          startTime: dateTime,
+          endTime: dateTime.add(
+            state.duration,
+          ));
+      if (_isScheduleOverlapsed(timeRegion)) {
+        return TimeOverlapped().message;
+      }
+    }
+    return null;
   }
 
-  void getTimeSlots(String participantId) async {
+  void _clearBusyAreas() {
+    _rxBusyAreas.clear();
+  }
+
+  void _getTimeSlots(String participantId) async {
     final result = await _scheduleRepository.getTimeSlots(participantId);
     if (result.success) {
       _rxBusyAreas.assignAll(result.data ?? []);
     }
   }
 
-  Future<void> createSchedule() async {
-    if (state.selectedUser == null) {
-      return;
-    }
+  bool _isScheduleOverlapsed(TimeRegion selectedRegion) {
+    return selectedRegion.isOverlapsed(busyAreas
+        .map((e) => TimeRegion(startTime: e.startDate, endTime: e.endDate))
+        .toList());
+  }
+
+  Future<String?> createSchedule() async {
+    // if (_isScheduleOverlapsed(state.toTimeRegion())) {
+    //   return 'Time overlaps';
+    // }
     final result = await _scheduleRepository.createSchedule(
       startDate: state.calendarDateTime,
       duration: state.duration,
-      participantId: state.selectedUser!.id,
+      participantId: state.selectedUser?.id,
     );
+    if (result.success) {
+      return null;
+    }
+    return result.error?.message;
   }
 
-  void resetData() {
+  void _resetData() {
     _rxState.value = _rxState.value.reset();
-    _users.clear();
   }
 
   void search() async {
-    try {
-      if (isLoading) {
-        return;
-      }
-      resetData();
-      isLoading = true;
-      final result = await _userRepository.getUsersList();
-      if (result.success) {
-        _users.assignAll(result.data ?? []);
-      }
-      isLoading = false;
-    } catch (e, trace) {
-      debugPrintStack(stackTrace: trace);
+    if (isLoading) {
+      return;
     }
+    final String? searchByName = state.userNameInput;
+    _users.clear();
+    _resetData();
+    isLoading = true;
+    final result =
+        await _userRepository.getUsersList(nameSearch: state.userNameInput);
+    _resetData();
+    if (result.success) {
+      _users.assignAll(result.data ?? []);
+    }
+    isLoading = false;
   }
 }

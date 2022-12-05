@@ -9,7 +9,7 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        child: const Text("Sorry! You need to login to view this"),
+        child: const Text("Ops! Please login!"),
         onPressed: () {
           Get.toNamed('/$LoginScreen');
         },

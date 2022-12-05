@@ -65,7 +65,7 @@ class _LoginFormState extends State<_LoginForm> {
                   child: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
-                      Get.offNamedUntil('/$MainScreen', (route) => false);
+                      Get.offNamedUntil('/$MainScreen', (route) => true);
                     },
                   ),
                 ),
@@ -111,12 +111,12 @@ class _LoginFormState extends State<_LoginForm> {
               const Spacer(),
               GetX<AuthController>(builder: (authController) {
                 return ElevatedButton(
-                  onPressed: () {
-                    _onLoginPressed(authController);
-                  },
-                  child: authController.isLoading
-                      ? const CupertinoActivityIndicator()
-                      : const Text("Login"),
+                  onPressed: authController.isLoading
+                      ? null
+                      : () {
+                          _onLoginPressed(authController);
+                        },
+                  child: const Text("Login"),
                 );
               }),
               Expanded(
@@ -132,26 +132,25 @@ class _LoginFormState extends State<_LoginForm> {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              GetX<AuthController>(
-                builder: (authController) {
-                  if (authController.error != null) {
-                    return Center(
-                      child: Text(
-                        authController.error!,
-                        style: AppStyles.medium.copyWith(
-                          color: kErrorColor,
-                          fontSize: 12,
-                          height: 1.2,
-                        ),
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
-            ],
+          GetX<AuthController>(
+            builder: (authController) {
+              if (authController.error != null) {
+                return Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    authController.error!,
+                    textAlign: TextAlign.center,
+                    style: AppStyles.medium.copyWith(
+                      color: kErrorColor,
+                      fontSize: 12,
+                      height: 1.2,
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
           ),
         ],
       ),

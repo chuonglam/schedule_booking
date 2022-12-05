@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schedule_booking/common/exts.dart';
+import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/models/appointment_data_source.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -21,8 +23,11 @@ class PickTimeSlotWidget extends StatelessWidget {
               .map((e) => TimeRegion(
                     startTime: e.startDate,
                     endTime: e.endDate,
-                    iconData: Icons.stop,
-                    color: const Color(0xFFDDDDDD),
+                    iconData: Icons.timelapse,
+                    color: Colors.redAccent.shade100, //const Color(0xFFC7B7EB),
+                    text:
+                        "${e.startDate.format(formatter: 'HH:mm')} - ${e.endDate.format(formatter: 'HH:mm')}",
+                    textStyle: AppStyles.bold,
                   ))
               .toList(),
           viewNavigationMode: ViewNavigationMode.none,
@@ -35,7 +40,20 @@ class PickTimeSlotWidget extends StatelessWidget {
             if (value.droppingTime == null) {
               return;
             }
-            controller.updateState(dateTime: value.droppingTime);
+            final errorMessage =
+                controller.updateState(dateTime: value.droppingTime);
+            if (errorMessage == null) {
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  title: const Text("Error"),
+                  content: Text(errorMessage),
+                );
+              },
+            );
           },
         );
       },

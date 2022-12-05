@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension DateTimeX on DateTime {
   String format({String? formatter}) {
     final format = DateFormat(formatter ?? 'MM-dd-yyyy');
     return format.format(this);
+  }
+}
+
+extension TimeRegionX on TimeRegion {
+  bool isOverlapsed(List<TimeRegion> busyAreas) {
+    return busyAreas.any((timeRegion) => _dateRangeOverlaps(this, timeRegion));
+  }
+
+  bool _dateRangeOverlaps(TimeRegion a, TimeRegion b) {
+    if (!a.startTime.isAfter(b.startTime) && !b.startTime.isAfter(a.endTime)) {
+      return true;
+    }
+    if (!a.startTime.isAfter(b.endTime) && !b.endTime.isAfter(a.endTime)) {
+      return true;
+    }
+    if (b.startTime.isBefore(a.startTime) && a.endTime.isBefore(b.endTime)) {
+      return true;
+    }
+    return false;
   }
 }
 

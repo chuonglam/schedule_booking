@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduleParams {
   final DateTime calendarDateTime;
@@ -12,6 +13,11 @@ class ScheduleParams {
     this.userNameInput,
     this.selectedUser,
   });
+
+  TimeRegion toTimeRegion() {
+    return TimeRegion(
+        startTime: calendarDateTime, endTime: calendarDateTime.add(duration));
+  }
 
   ScheduleParams copyWith({
     DateTime? calendarDateTime,

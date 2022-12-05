@@ -58,7 +58,13 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                     return DurationFormField(
                       onChanged: (hour) {
                         controller.updateState(
-                            duration: Duration(hours: hour ?? 1));
+                            duration:
+                                hour == null ? null : Duration(hours: hour));
+                      },
+                      onSaved: (hour) {
+                        controller.updateState(
+                            duration:
+                                hour == null ? null : Duration(hours: hour));
                       },
                     );
                   },
@@ -70,7 +76,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: TextField(
+                  child: TextFormField(
                     decoration: InputDecoration(
                       hintText: "Input user's name",
                       border: OutlineInputBorder(
@@ -94,7 +100,11 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                       ),
                     ),
                     textInputAction: TextInputAction.search,
-                    onSubmitted: (value) {
+                    onSaved: (value) {
+                      print('xxx onsave $value');
+                      controller.updateState(userNameInput: value);
+                    },
+                    onFieldSubmitted: (value) {
                       submitForm();
                     },
                   ),
