@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
 import 'package:schedule_booking/common/styles.dart';
-import 'package:schedule_booking/params/signup_params.dart';
+import 'package:schedule_booking/models/signup_params.dart';
 import 'package:schedule_booking/screens/auth/login_screen.dart';
 import 'package:schedule_booking/screens/auth/signup_controller.dart';
 import 'package:schedule_booking/screens/main/main_screen.dart';

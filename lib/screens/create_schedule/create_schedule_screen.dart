@@ -38,7 +38,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                       child: UsersList(
                         onTap: (schedule) {
                           if (isMediumOrLargeScreen) {
-                            controller.selectUser(schedule);
+                            controller.updateState(selectedUser: schedule);
                             return;
                           }
                           _onTap(context);
@@ -75,7 +75,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Obx(() {
-                                if (controller.selectedUser == null) {
+                                if (controller.state.selectedUser == null) {
                                   return Container(
                                       alignment: Alignment.center,
                                       child: const Text("Please pick a user"));

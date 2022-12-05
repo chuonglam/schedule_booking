@@ -29,7 +29,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
             DateFormField(
               context: context,
               onSaved: (value) {
-                controller.selectedDate = value ?? DateTime.now();
+                controller.updateState(dateTime: value);
               },
             ),
             const SizedBox(height: 6),
@@ -56,11 +56,9 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                 GetBuilder<CreateScheduleController>(
                   builder: (controller) {
                     return DurationFormField(
-                      onSaved: (hour) {
-                        controller.duration = Duration(hours: hour ?? 1);
-                      },
                       onChanged: (hour) {
-                        controller.duration = Duration(hours: hour ?? 1);
+                        controller.updateState(
+                            duration: Duration(hours: hour ?? 1));
                       },
                     );
                   },

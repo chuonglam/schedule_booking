@@ -28,7 +28,6 @@ class UsersList extends StatelessWidget {
             },
             leading: const CircleAvatar(),
             title: Text(controller.users[index].username),
-            // selected: controller.selectedUser?.id == controller.users[index].id,
             hoverColor: Theme.of(context).dividerColor,
             trailing: const Icon(Icons.keyboard_arrow_right),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
+import 'package:schedule_booking/models/appointment_data_source.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class PickTimeSlotWidget extends StatelessWidget {
@@ -12,37 +13,32 @@ class PickTimeSlotWidget extends StatelessWidget {
       builder: (controller) {
         final DateTime now = DateTime.now();
         return SfCalendar(
-          dataSource: controller.source,
+          dataSource: AppointmentDataSource([
+            controller.appointment,
+          ]),
           view: CalendarView.day,
-          specialRegions: controller.regions
+          specialRegions: controller.busyAreas
               .map((e) => TimeRegion(
                     startTime: e.startDate,
                     endTime: e.endDate,
-                    color: Colors.redAccent,
+                    iconData: Icons.stop,
+                    color: const Color(0xFFDDDDDD),
                   ))
               .toList(),
           viewNavigationMode: ViewNavigationMode.none,
           cellEndPadding: 0,
-          timeSlotViewSettings: const TimeSlotViewSettings(
-              // startHour: DateTime.now().hour.toDouble(),
-              ),
+          timeSlotViewSettings: const TimeSlotViewSettings(),
           allowDragAndDrop: true,
-          initialDisplayDate: controller.selectedDate,
+          initialDisplayDate: controller.state.calendarDateTime,
           minDate: now,
           onDragEnd: (value) {
             if (value.droppingTime == null) {
               return;
             }
-            controller.selectedDate = value.droppingTime!;
+            controller.updateState(dateTime: value.droppingTime);
           },
         );
       },
     );
-  }
-}
-
-class AppointmentDataSource extends CalendarDataSource {
-  AppointmentDataSource(List<Appointment> source) {
-    appointments = source;
   }
 }
