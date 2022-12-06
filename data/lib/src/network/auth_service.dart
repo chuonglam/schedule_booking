@@ -22,6 +22,18 @@ class AuthService {
     throw DefaultError();
   }
 
+  Future<bool> logout() async {
+    final user = await ParseUser.currentUser() as ParseUser?;
+    if (user == null) {
+      return true;
+    }
+    final response = await user.logout();
+    if (response.success) {
+      return true;
+    }
+    throw DefaultError();
+  }
+
   Future<UserModel> signUp({
     required String username,
     required String password,

@@ -19,11 +19,9 @@ class ScheduleService {
     if (user.objectId == participantId) {
       throw ParticipantIsHost();
     }
-    //todo: convert startDate from local timezone to the selected timezone
-    final newDate = startDate;
     final func = ParseCloudFunction("createSchedule");
     final res = await func.executeObjectFunction(parameters: {
-      'startDate': newDate.toUtc().toString(),
+      'startDate': startDate.toUtc().toString(),
       'endDate': endDate.toUtc().toString(),
       'participantId': participantId,
     });

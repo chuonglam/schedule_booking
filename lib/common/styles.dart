@@ -74,6 +74,7 @@ class AppStyles {
           fontSize: 14,
           color: AppStyles.mainColor,
         ),
+        minWidth: 50,
         unselectedLabelTextStyle: AppStyles.regular.copyWith(
           color: const Color(0xff757575),
           fontSize: 14,

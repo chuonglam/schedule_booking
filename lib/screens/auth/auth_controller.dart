@@ -58,7 +58,10 @@ class AuthController extends GetxController with LoadingController {
     return false;
   }
 
-  void logout() {
-    _currentUser(null);
+  void logout() async {
+    final AppResult<bool> result = await _authRepository.logout();
+    if (result.success) {
+      _currentUser.value = null;
+    }
   }
 }

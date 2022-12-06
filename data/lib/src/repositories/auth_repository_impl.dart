@@ -25,6 +25,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AppResult<bool>> logout() async {
+    try {
+      final response = await _authService.logout();
+      return AppResult.success(true);
+    } catch (e) {
+      //todo: handle exs
+      return AppResult.error(DefaultError());
+    }
+  }
+
+  @override
   Future<AppResult<User>> signUp({
     required String username,
     required String password,
