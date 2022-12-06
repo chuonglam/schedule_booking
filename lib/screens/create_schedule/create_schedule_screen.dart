@@ -6,6 +6,7 @@ import 'package:schedule_booking/screens/create_schedule/create_schedule_control
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_widget.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_user_widget.dart';
+import 'package:schedule_booking/screens/main/main_screen.dart';
 
 class CreateScheduleScreen extends GetView<CreateScheduleController> {
   const CreateScheduleScreen({super.key});
@@ -109,6 +110,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
   void _onClickCreateSchedule(BuildContext context) async {
     final String? errorMessage = await controller.createSchedule();
     if (errorMessage == null) {
+      Get.offNamedUntil('/$MainScreen', (route) => true);
       return;
     }
     showDialog(

@@ -40,20 +40,7 @@ class PickTimeSlotWidget extends StatelessWidget {
             if (value.droppingTime == null) {
               return;
             }
-            final errorMessage =
-                controller.updateState(dateTime: value.droppingTime);
-            if (errorMessage == null) {
-              return;
-            }
-            showDialog(
-              context: context,
-              builder: (ctx) {
-                return AlertDialog(
-                  title: const Text("Error"),
-                  content: Text(errorMessage),
-                );
-              },
-            );
+            controller.updateState(dateTime: value.droppingTime);
           },
         );
       },

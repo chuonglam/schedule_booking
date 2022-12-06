@@ -22,7 +22,7 @@ class ScheduleCard extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 8,
+              horizontal: 6,
               vertical: 10,
             ),
             decoration: BoxDecoration(
@@ -41,6 +41,7 @@ class ScheduleCard extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
+                const SizedBox(height: 6),
                 Text(
                   schedule.startDate.format(formatter: "dd"),
                   style: AppStyles.medium.copyWith(
@@ -62,9 +63,9 @@ class ScheduleCard extends StatelessWidget {
                     SvgPicture.asset(
                       'assets/svg/ic_time.svg',
                       color: const Color(0xFF757575),
-                      width: 15,
+                      width: 13,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     Text.rich(
                       TextSpan(
                         text: schedule.startDate.format(formatter: 'HH:mm'),
@@ -77,6 +78,7 @@ class ScheduleCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                      style: AppStyles.medium,
                     )
                   ],
                 ),
@@ -85,12 +87,14 @@ class ScheduleCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       'assets/svg/ic_chat.svg',
-                      width: 15,
+                      width: 13,
                     ),
-                    const SizedBox(width: 8),
-                    Text(schedule.host.displayName +
-                        "-" +
-                        schedule.participant.displayName),
+                    const SizedBox(width: 6),
+                    //todo: username
+                    Text(
+                      schedule.participant.displayName,
+                      style: AppStyles.regular,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),

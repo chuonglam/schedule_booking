@@ -101,7 +101,6 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                     ),
                     textInputAction: TextInputAction.search,
                     onSaved: (value) {
-                      print('xxx onsave $value');
                       controller.updateState(userNameInput: value);
                     },
                     onFieldSubmitted: (value) {

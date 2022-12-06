@@ -74,7 +74,7 @@ class CreateScheduleController extends GetxController with LoadingController {
     }
   }
 
-  String? updateState({
+  void updateState({
     Duration? duration,
     User? selectedUser,
     DateTime? dateTime,
@@ -90,17 +90,6 @@ class CreateScheduleController extends GetxController with LoadingController {
       _clearBusyAreas();
       _getTimeSlots(selectedUser.id);
     }
-    if (dateTime != null) {
-      final timeRegion = TimeRegion(
-          startTime: dateTime,
-          endTime: dateTime.add(
-            state.duration,
-          ));
-      if (_isScheduleOverlapsed(timeRegion)) {
-        return TimeOverlapped().message;
-      }
-    }
-    return null;
   }
 
   void _clearBusyAreas() {
@@ -121,9 +110,13 @@ class CreateScheduleController extends GetxController with LoadingController {
   }
 
   Future<String?> createSchedule() async {
-    // if (_isScheduleOverlapsed(state.toTimeRegion())) {
-    //   return 'Time overlaps';
-    // }
+    isLoading = true;
+    if (_isScheduleOverlapsed(state.toTimeRegion())) {
+      return Future.delayed(const Duration(milliseconds: 300), () {
+        isLoading = false;
+        return Future.value('Time overlaps');
+      });
+    }
     final result = await _scheduleRepository.createSchedule(
       startDate: state.calendarDateTime,
       duration: state.duration,
@@ -149,10 +142,11 @@ class CreateScheduleController extends GetxController with LoadingController {
     isLoading = true;
     final result =
         await _userRepository.getUsersList(nameSearch: state.userNameInput);
-    _resetData();
+    print('xxx result $searchByName');
+    isLoading = false;
     if (result.success) {
       _users.assignAll(result.data ?? []);
+      _users.refresh();
     }
-    isLoading = false;
   }
 }

@@ -15,10 +15,10 @@ extension TimeRegionX on TimeRegion {
   }
 
   bool _dateRangeOverlaps(TimeRegion a, TimeRegion b) {
-    if (!a.startTime.isAfter(b.startTime) && !b.startTime.isAfter(a.endTime)) {
+    if (!a.startTime.isAfter(b.startTime) && b.startTime.isBefore(a.endTime)) {
       return true;
     }
-    if (!a.startTime.isAfter(b.endTime) && !b.endTime.isAfter(a.endTime)) {
+    if (a.startTime.isBefore(b.endTime) && !b.endTime.isAfter(a.endTime)) {
       return true;
     }
     if (b.startTime.isBefore(a.startTime) && a.endTime.isBefore(b.endTime)) {
