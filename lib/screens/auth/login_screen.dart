@@ -93,18 +93,23 @@ class _LoginFormState extends State<_LoginForm> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                hintText: "Password",
-                prefixIcon: Icon(Icons.password),
+          GetBuilder<AuthController>(builder: (authController) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  hintText: "Password",
+                  prefixIcon: Icon(Icons.password),
+                ),
+                onSubmitted: (value) {
+                  _onLoginPressed(authController);
+                },
+                obscureText: true,
+                obscuringCharacter: '*',
               ),
-              obscureText: true,
-              obscuringCharacter: '*',
-            ),
-          ),
+            );
+          }),
           const SizedBox(height: 16),
           Row(
             children: [

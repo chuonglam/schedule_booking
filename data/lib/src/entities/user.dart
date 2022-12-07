@@ -9,4 +9,6 @@ class User {
     required this.email,
     required this.displayName,
   });
+
+  String get nameChar => displayName.isEmpty ? '' : displayName[0];
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/constants.dart';
@@ -91,14 +90,14 @@ class _SignupFormState extends State<_SignupForm> {
                   child: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
-                      Get.offNamedUntil('/$MainScreen', (route) => false);
+                      Get.offNamedUntil('/$MainScreen', (route) => true);
                     },
                   ),
                 )),
               ],
             ),
             Text(
-              "Welcome back, please enter your details",
+              "Welcome, please enter your details",
               style: Theme.of(context).textTheme.caption,
             ),
             const SizedBox(height: 16),
@@ -163,10 +162,10 @@ class _SignupFormState extends State<_SignupForm> {
                 GetX<SignUpController>(
                   builder: (signUpController) {
                     return ElevatedButton(
-                      child: signUpController.isLoading
-                          ? const CupertinoActivityIndicator()
-                          : const Text("Sign up"),
-                      onPressed: () => _onSignUpPressed(signUpController),
+                      onPressed: signUpController.isLoading
+                          ? null
+                          : () => _onSignUpPressed(signUpController),
+                      child: const Text("Sign up"),
                     );
                   },
                 ),
