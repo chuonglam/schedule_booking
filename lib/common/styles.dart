@@ -88,6 +88,12 @@ class AppStyles {
           ),
           borderRadius: BorderRadius.circular(10),
         ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xffEAEAEA),
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: AppStyles.mainColor,
@@ -107,9 +113,6 @@ class AppStyles {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         isDense: true,
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).dividerColor),
-        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

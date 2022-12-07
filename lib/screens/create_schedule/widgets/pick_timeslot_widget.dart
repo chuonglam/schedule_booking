@@ -19,18 +19,17 @@ class PickTimeSlotWidget extends StatelessWidget {
             controller.appointment,
           ]),
           view: CalendarView.day,
-          specialRegions: controller.busyAreas
-              .map((e) => TimeRegion(
+          specialRegions:
+              List<TimeRegion>.from(controller.busyAreas.map((e) => TimeRegion(
                     startTime: e.startDate,
                     endTime: e.endDate,
-                    iconData: Icons.timelapse,
-                    color: Colors.redAccent.shade100, //const Color(0xFFC7B7EB),
+                    color: AppStyles.mainColor.withOpacity(0.5),
                     text:
                         "${e.startDate.format(formatter: 'HH:mm')} - ${e.endDate.format(formatter: 'HH:mm')}",
-                    textStyle: AppStyles.bold,
-                  ))
-              .toList(),
+                    textStyle: AppStyles.regular,
+                  ))),
           viewNavigationMode: ViewNavigationMode.none,
+          showCurrentTimeIndicator: false,
           cellEndPadding: 0,
           timeSlotViewSettings: const TimeSlotViewSettings(),
           allowDragAndDrop: true,

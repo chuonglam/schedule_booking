@@ -8,7 +8,6 @@ class UserScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CalendarController controller = CalendarController();
     final bool isSmallScreen = context.isSmallScreen;
     return Column(
       children: [
@@ -22,7 +21,6 @@ class UserScheduleScreen extends StatelessWidget {
                 constraints:
                     const BoxConstraints(maxWidth: 250, maxHeight: 250),
                 child: SfCalendar(
-                  controller: controller,
                   view: CalendarView.month,
                   cellBorderColor: Colors.transparent,
                   headerDateFormat: "MMMM",

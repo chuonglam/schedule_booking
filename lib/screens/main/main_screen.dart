@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
+import 'package:schedule_booking/common/widgets/logout_confirmation.dart';
+import 'package:schedule_booking/common/widgets/user_menu.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/auth_screen.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_screen.dart';
@@ -22,31 +24,7 @@ class MainScreen extends GetView<MainController> {
         title: Text(DateTime.now().format(formatter: 'EEEE, MMM dd yyyy')),
         centerTitle: true,
         actions: [
-          if (isMediumOrLargeScreen)
-            GetX<AuthController>(
-              builder: (authController) {
-                if (!authController.isLoggedIn) {
-                  return const SizedBox();
-                }
-                return PopupMenuButton(
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        child: const ListTile(title: Text("Logout")),
-                        onTap: () async {
-                          final bool success = await authController.logout();
-                          if (success) {}
-                        },
-                      ),
-                    ];
-                  },
-                  splashRadius: 50,
-                  padding: const EdgeInsets.all(0),
-                  position: PopupMenuPosition.under,
-                  child: const CircleAvatar(),
-                );
-              },
-            ),
+          if (isMediumOrLargeScreen) const UserMenu(),
           const SizedBox(width: 16),
         ],
       ),
@@ -131,59 +109,6 @@ class MainScreen extends GetView<MainController> {
                 },
               );
             }),
-    );
-  }
-}
-
-class MainScreen2 extends StatefulWidget {
-  const MainScreen2({super.key});
-
-  @override
-  State<MainScreen2> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen2> {
-  int _selectedIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    final bool isMediumOrLargeScreen = !context.isSmallScreen;
-    final bool isLargeScreen = context.isLargeScreen;
-    return SizedBox();
-  }
-
-  void _createSchedule() {
-    // Get.toNamed('$CreateScheduleScreen');
-    // return;
-    Get.defaultDialog(
-      content: ConstrainedBox(
-        constraints: BoxConstraints(
-            maxWidth: 500, minWidth: 500, maxHeight: Get.height * 2 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: InputDecoration(hintText: "Select schedule date"),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(hintText: "Select schedule date"),
-            ),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Text("Pick a user"),
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(hintText: "Input name"),
-                  ),
-                ),
-                Icon(Icons.filter),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

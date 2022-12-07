@@ -28,7 +28,7 @@ class EmailAlreadyUsed extends AppError {
 }
 
 class UserNotLoggedIn extends AppError {
-  UserNotLoggedIn([super.message = 'User not logged in']);
+  UserNotLoggedIn([super.message = 'You are not logged in']);
 }
 
 class UserNotPicked extends AppError {
