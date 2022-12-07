@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/loading_controller.dart';
+import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/models/schedule_params.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -36,7 +37,7 @@ class CreateScheduleController extends GetxController with LoadingController {
     endTime: DateTime.now().add(const Duration(hours: 1)),
     subject: 'Meeting',
     startTimeZone: '',
-    color: Colors.blueAccent.shade100,
+    color: AppStyles.mainColor,
     endTimeZone: '',
   ));
 
@@ -110,10 +111,8 @@ class CreateScheduleController extends GetxController with LoadingController {
   }
 
   Future<String?> createSchedule() async {
-    isLoading = true;
     if (_isScheduleOverlapsed(state.toTimeRegion())) {
       return Future.delayed(const Duration(milliseconds: 300), () {
-        isLoading = false;
         return Future.value('Time overlaps');
       });
     }
@@ -140,9 +139,7 @@ class CreateScheduleController extends GetxController with LoadingController {
     _users.clear();
     _resetData();
     isLoading = true;
-    final result =
-        await _userRepository.getUsersList(nameSearch: state.userNameInput);
-    print('xxx result $searchByName');
+    final result = await _userRepository.getUsersList(nameSearch: searchByName);
     isLoading = false;
     if (result.success) {
       _users.assignAll(result.data ?? []);

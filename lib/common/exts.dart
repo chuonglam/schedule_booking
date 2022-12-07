@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:schedule_booking/common/widgets/logo.dart';
+import 'package:schedule_booking/common/styles.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension DateTimeX on DateTime {
@@ -28,6 +31,15 @@ extension TimeRegionX on TimeRegion {
   }
 }
 
+extension DurationX on Duration {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String toHourFormat() {
+    String hours = (inMinutes ~/ 60).toString().padLeft(2, "0");
+    String minutes = (inMinutes % 60).toString().padLeft(2, "0");
+    return "$hours:$minutes";
+  }
+}
+
 extension BuildContextX on BuildContext {
   bool get isSmallScreen => MediaQuery.of(this).size.width < 650;
 
@@ -38,6 +50,75 @@ extension BuildContextX on BuildContext {
 
   bool get isLargeScreen {
     return MediaQuery.of(this).size.width >= 1000;
+  }
+
+  Future<bool?> dialog({
+    String? title,
+    String? subtitle,
+    Widget? content,
+    Widget? icon,
+    String? negativeText,
+    String? positiveText,
+  }) async {
+    return showDialog<bool>(
+      context: this,
+      barrierDismissible: true,
+      builder: (ctx) {
+        return AlertDialog(
+          actionsPadding: const EdgeInsets.all(16),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
+              minWidth: 450,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                icon ?? const AppLogo(),
+                const SizedBox(height: 8),
+                Text(
+                  title ?? "Alert",
+                  style: AppStyles.medium.copyWith(
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      "This is your schedule overview. Find your schedule details in the dashboard on our site after your confirmation",
+                      textAlign: TextAlign.center,
+                      style: AppStyles.regular.copyWith(
+                        fontSize: 14,
+                        color: Theme.of(this).textTheme.caption?.color,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 16),
+                if (content != null) content,
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(positiveText ?? "OK"),
+              onPressed: () {
+                Navigator.of(ctx).pop(true);
+              },
+            ),
+            if (negativeText != null)
+              ElevatedButton(
+                child: Text(negativeText),
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+              ),
+          ],
+        );
+      },
+    );
   }
 }
 

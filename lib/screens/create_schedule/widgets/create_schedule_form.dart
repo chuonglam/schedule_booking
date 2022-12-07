@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
+import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/date_form_field.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/duration_form_field.dart';
-import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/filter_widget.dart';
 
 class CreateScheduleForm extends GetView<CreateScheduleController> {
   final EdgeInsets padding;
@@ -55,16 +57,9 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                 const SizedBox(width: 16),
                 GetBuilder<CreateScheduleController>(
                   builder: (controller) {
-                    return DurationFormField(
+                    return DurationPicker(
                       onChanged: (hour) {
-                        controller.updateState(
-                            duration:
-                                hour == null ? null : Duration(hours: hour));
-                      },
-                      onSaved: (hour) {
-                        controller.updateState(
-                            duration:
-                                hour == null ? null : Duration(hours: hour));
+                        controller.updateState(duration: hour);
                       },
                     );
                   },
@@ -97,6 +92,23 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                         borderSide: const BorderSide(
                           color: Color(0xffEAEAEA),
                         ),
+                      ),
+                      suffixIcon: FilterButton(
+                        onTap: () {
+                          context.dialog(
+                            content: Card(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Switch(
+                                    onChanged: (value) {},
+                                    value: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     textInputAction: TextInputAction.search,

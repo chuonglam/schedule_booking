@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
+import 'package:schedule_booking/common/widgets/schedule_confirmation.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
@@ -37,12 +41,8 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                     ),
                     Expanded(
                       child: PickUserWidget(
-                        onTap: (schedule) {
-                          if (isMediumOrLargeScreen) {
-                            controller.updateState(selectedUser: schedule);
-                            return;
-                          }
-                          _onTapUser(context);
+                        onTap: (user) {
+                          _onTapUser(context, isMediumOrLargeScreen, user);
                         },
                       ),
                     ),
@@ -69,7 +69,6 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                           alignment: Alignment.topCenter,
                           margin: const EdgeInsets.only(bottom: 16),
                           child: Card(
-                            color: const Color(0xffF1EEF6),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -89,10 +88,14 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                       ),
                       Container(
                         alignment: Alignment.centerRight,
-                        child: ElevatedButton(
-                          onPressed: () => _onClickCreateSchedule(context),
-                          child: const Text("Create"),
-                        ),
+                        child: Obx(() {
+                          return ElevatedButton(
+                            onPressed: controller.state.selectedUser == null
+                                ? null
+                                : () => _onClickCreateSchedule(context),
+                            child: const Text("Create"),
+                          );
+                        }),
                       ),
                       const SizedBox(height: 16),
                     ],
@@ -108,32 +111,41 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
   }
 
   void _onClickCreateSchedule(BuildContext context) async {
+    final negative = await context.dialog(
+      positiveText: 'Cancel',
+      negativeText: 'Create',
+      title: 'Confirmation',
+      subtitle:
+          'This is your schedule overview. Find your schedule details in the dashboard on our site after your confirmation',
+      content: ScheduleConfirmation(
+        data: controller.state,
+      ),
+    );
+    if (negative != false) {
+      return;
+    }
     final String? errorMessage = await controller.createSchedule();
     if (errorMessage == null) {
       Get.offNamedUntil('/$MainScreen', (route) => true);
       return;
     }
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Create schedule failed"),
-        content: SizedBox(
-          width: 300,
-          child: Text(errorMessage),
-        ),
-      ),
+    context.dialog(
+      title: 'Error',
+      content: Text(errorMessage),
     );
   }
 
-  void _onTapUser(BuildContext context) {
+  void _onTapUser(
+      BuildContext context, bool isMediumOrLargeScreen, User schedule) {
+    if (isMediumOrLargeScreen) {
+      controller.updateState(selectedUser: schedule);
+      return;
+    }
     showDialog(
       context: context,
-      builder: (ctx) => const AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: Text("Pick a time slot"),
-        content: SizedBox(
-          width: 300,
-          child: PickTimeSlotWidget(),
-        ),
+        content: PickTimeSlotWidget(),
       ),
     );
   }
