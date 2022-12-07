@@ -1,5 +1,4 @@
 import 'package:data/data.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/loading_controller.dart';

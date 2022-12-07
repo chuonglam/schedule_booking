@@ -18,8 +18,7 @@ class UserScheduleScreen extends StatelessWidget {
               margin: const EdgeInsets.all(16),
               child: Container(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                constraints:
-                    const BoxConstraints(maxWidth: 250, maxHeight: 250),
+                constraints: const BoxConstraints(maxWidth: 250),
                 child: SfCalendar(
                   view: CalendarView.month,
                   cellBorderColor: Colors.transparent,
@@ -28,10 +27,11 @@ class UserScheduleScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (!isSmallScreen)
-              const Expanded(
-                child: SchedulesView(),
-              ),
+            (!isSmallScreen)
+                ? Expanded(child: SchedulesView())
+                : Expanded(
+                    child: SizedBox(),
+                  ),
           ],
         ),
         if (isSmallScreen)
