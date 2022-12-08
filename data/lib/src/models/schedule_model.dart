@@ -1,6 +1,5 @@
 import 'package:data/data.dart';
 import 'package:data/src/models/user_model.dart';
-import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 class ScheduleModel {
   String objectId;

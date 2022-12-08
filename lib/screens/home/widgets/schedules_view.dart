@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
+import 'package:schedule_booking/common/widgets/empty_state.dart';
 import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
 import 'package:schedule_booking/screens/home/widgets/schedule_card.dart';
 
@@ -13,6 +14,14 @@ class SchedulesView extends StatelessWidget {
     final bool isMediumScreen = context.isMediumScreen;
     return GetX<UserScheduleController>(
       builder: (controller) {
+        if (controller.loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (controller.data.isEmpty) {
+          return const EmptyState();
+        }
         return GridView.builder(
           padding: const EdgeInsets.all(8),
           itemCount: controller.data.length,

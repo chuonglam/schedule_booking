@@ -10,5 +10,5 @@ abstract class ScheduleRepository {
   Future<AppResult<List<Schedule>>> getTimeSlots(String participantId);
 
   Future<AppResult<List<Schedule>>> getUserTimeSlots(
-      {int limit = 0, int skip = 0});
+      {int limit = 0, int skip = 0, DateTime? date});
 }

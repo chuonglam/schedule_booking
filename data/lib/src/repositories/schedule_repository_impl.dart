@@ -47,19 +47,18 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
 
   @override
   Future<AppResult<List<Schedule>>> getUserTimeSlots(
-      {int limit = 0, int skip = 0}) async {
+      {int limit = 0, int skip = 0, DateTime? date}) async {
     try {
-      final res =
-          await _scheduleService.getUserTimeSlots(limit: limit, skip: skip);
+      final res = await _scheduleService.getUserTimeSlots(
+          limit: limit, skip: skip, date: date);
       final List<Schedule> schedules = res.map((e) => e.toSchedule()).toList();
-      schedules.sort((a, b) => a.endDate.compareTo(b.endDate));
-      final now = DateTime.now();
-      final idx =
-          schedules.lastIndexWhere((element) => element.endDate.isBefore(now));
-      final old = schedules.getRange(0, idx + 1);
-      print('xxx old ${old.length}');
-      schedules.addAll(old);
-      schedules.removeRange(0, idx + 1);
+      // schedules.sort((a, b) => a.endDate.compareTo(b.endDate));
+      // final now = DateTime.now();
+      // final idx =
+      //     schedules.lastIndexWhere((element) => element.endDate.isBefore(now));
+      // final old = schedules.getRange(0, idx + 1);
+      // schedules.addAll(old);
+      // schedules.removeRange(0, idx + 1);
       return AppResult.success(schedules);
     } on AppError catch (e) {
       return AppResult.error(e);
