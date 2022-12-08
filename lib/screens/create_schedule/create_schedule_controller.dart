@@ -31,22 +31,30 @@ class CreateScheduleController extends GetxController with LoadingController {
 
   List<Schedule> get busyAreas => _rxBusyAreas;
 
-  final Rx<Appointment> _appointment = Rx(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(hours: 1)),
-    subject: 'Meeting',
-    startTimeZone: '',
-    color: AppStyles.mainColor,
-    endTimeZone: '',
-  ));
+  final Rxn<Appointment> _appointment = Rxn();
 
-  Appointment get appointment => _appointment.value;
+  Appointment? get appointment => _appointment.value;
 
   Worker? _onStateChanged;
   @override
   void onInit() {
     super.onInit();
+    _initAppointment();
     _registerWorkers();
+  }
+
+  void _initAppointment() {
+    final DateTime start = state.calendarDateTime;
+    final DateTime end = start.add(state.duration);
+    _appointment.value = Appointment(
+      startTime: start,
+      endTime: end,
+      subject:
+          '${start.format(formatter: 'HH:mm')} - ${end.format(formatter: "HH:mm")}',
+      startTimeZone: '',
+      color: AppStyles.mainColor,
+      endTimeZone: '',
+    );
   }
 
   @override

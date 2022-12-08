@@ -15,9 +15,11 @@ class PickTimeSlotWidget extends StatelessWidget {
       builder: (controller) {
         final DateTime now = DateTime.now();
         return SfCalendar(
-          dataSource: AppointmentDataSource([
-            controller.appointment,
-          ]),
+          dataSource: controller.appointment == null
+              ? null
+              : AppointmentDataSource([
+                  controller.appointment!,
+                ]),
           view: CalendarView.day,
           specialRegions:
               List<TimeRegion>.from(controller.busyAreas.map((e) => TimeRegion(

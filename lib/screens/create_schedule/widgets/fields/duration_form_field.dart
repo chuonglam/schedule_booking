@@ -12,35 +12,32 @@ class DurationPicker extends StatefulWidget {
 }
 
 class _DurationPickerState extends State<DurationPicker> {
-  TextEditingController? hourController;
-  TextEditingController? minuteController;
-
+  TextEditingController? _hourController;
+  TextEditingController? _minuteController;
+  final int _minimumDurationInMin = 30;
+  final int _stepInMin = 15;
   @override
   void initState() {
     super.initState();
-    hourController = TextEditingController();
-    minuteController = TextEditingController();
+    _hourController = TextEditingController();
+    _minuteController = TextEditingController();
   }
 
   @override
   void dispose() {
-    hourController?.dispose();
-    minuteController?.dispose();
+    _hourController?.dispose();
+    _minuteController?.dispose();
     super.dispose();
   }
 
-  int _minutes = 60;
-
   @override
   Widget build(BuildContext context) {
-    final int hour = _minutes ~/ 60;
-    final int minutes = _minutes % 60;
     return Row(
       children: [
         SizedBox(
           width: 50,
           child: TextFormField(
-            controller: hourController?..text = hour.toString().padLeft(2, '0'),
+            controller: _hourController?..text = 0.toString().padLeft(2, '0'),
             textAlign: TextAlign.center,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
@@ -50,23 +47,14 @@ class _DurationPickerState extends State<DurationPicker> {
               counterText: '',
               contentPadding: EdgeInsets.symmetric(vertical: 16),
             ),
-            onChanged: (value) {
-              final num = int.tryParse(value);
-              if (num == null) {
-                return;
-              }
-              setState(() {
-                _minutes = 60;
-              });
-            },
           ),
         ),
-        const Text(" : "),
+        const Text(":"),
         SizedBox(
           width: 50,
           child: TextFormField(
-            controller: minuteController
-              ?..text = minutes.toString().padLeft(2, '0'),
+            controller: _minuteController
+              ?..text = 30.toString().padLeft(2, '0'),
             textAlign: TextAlign.center,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
@@ -77,27 +65,13 @@ class _DurationPickerState extends State<DurationPicker> {
               counterText: '',
               contentPadding: EdgeInsets.symmetric(vertical: 16),
             ),
-            onChanged: (value) {
-              final num = int.tryParse(value);
-              if (num == null) {
-                return;
-              }
-              setState(() {
-                _minutes = num;
-              });
-            },
           ),
         ),
         Column(
           children: [
             GestureDetector(
               onTap: () {
-                final int newValue = _minutes + 15;
-                setState(() {
-                  _minutes = newValue;
-                });
-                widget.onChanged?.call(Duration(minutes: _minutes));
-                // onChanged?.call(newValue);
+                _increase();
               },
               child: const Icon(
                 Icons.arrow_drop_up,
@@ -112,14 +86,7 @@ class _DurationPickerState extends State<DurationPicker> {
             ),
             GestureDetector(
               onTap: () {
-                if (_minutes <= 30) {
-                  return;
-                }
-                final int newValue = _minutes - 15;
-                setState(() {
-                  _minutes = newValue;
-                });
-                widget.onChanged?.call(Duration(minutes: _minutes));
+                _decrease();
               },
               child: const Icon(
                 Icons.arrow_drop_down,
@@ -129,6 +96,45 @@ class _DurationPickerState extends State<DurationPicker> {
         ),
       ],
     );
+  }
+
+  int get totalMinutes =>
+      (int.tryParse(_hourController?.text ?? '') ?? 0) +
+      (int.tryParse(_minuteController?.text ?? '') ?? _minimumDurationInMin);
+
+  int get _hour => int.tryParse(_hourController?.text ?? '') ?? 0;
+  int get _minute =>
+      int.tryParse(_minuteController?.text ?? '') ?? _minimumDurationInMin;
+
+  void _increase() {
+    int minutes = _minute + _stepInMin;
+    int hours = _hour;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours++;
+    }
+    _minuteController?.text = minutes.toString().padLeft(2, '0');
+    _hourController?.text = hours.toString().padLeft(2, '0');
+    widget.onChanged?.call(Duration(hours: hours, minutes: minutes));
+  }
+
+  void _decrease() {
+    int minutes = _minute;
+    int hours = _hour;
+    if (hours == 0 && minutes <= _minimumDurationInMin) {
+      return;
+    }
+    minutes -= _stepInMin;
+    if (minutes < 0) {
+      minutes = 60 - _stepInMin;
+      hours--;
+      if (hours <= 0) {
+        hours = 0;
+      }
+    }
+    _minuteController?.text = minutes.toString().padLeft(2, '0');
+    _hourController?.text = hours.toString().padLeft(2, '0');
+    widget.onChanged?.call(Duration(hours: hours, minutes: minutes));
   }
 }
 

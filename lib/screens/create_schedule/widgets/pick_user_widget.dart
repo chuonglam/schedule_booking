@@ -29,20 +29,23 @@ class PickUserWidget extends GetView<CreateScheduleController> {
         padding: const EdgeInsets.only(top: 16),
         itemBuilder: (context, index) {
           final user = controller.users[index];
-          return ListTile(
-            contentPadding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
-            onTap: () {
-              onTap?.call(user);
-            },
-            leading: CircleAvatar(
-              child: Text(user.nameChar),
-            ),
-            title: Text(user.displayName),
-            hoverColor: Theme.of(context).dividerColor,
-            trailing: user.id == controller.state.selectedUser?.id
-                ? const Icon(Icons.keyboard_arrow_right)
-                : null,
-          );
+          return Obx(() => ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
+                onTap: () {
+                  onTap?.call(user);
+                },
+                leading: CircleAvatar(
+                  child: Text(user.nameChar),
+                ),
+                title: Text(user.displayName),
+                hoverColor: Theme.of(context).dividerColor,
+                trailing: user.id == controller.state.selectedUser?.id
+                    ? const Icon(
+                        Icons.arrow_right,
+                        size: 30,
+                      )
+                    : null,
+              ));
         },
         itemCount: controller.users.length,
       );

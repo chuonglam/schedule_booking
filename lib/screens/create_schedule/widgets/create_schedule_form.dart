@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
+import 'package:schedule_booking/common/widgets/filter_popup.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/date_form_field.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/duration_form_field.dart';
@@ -27,34 +28,17 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
           children: [
             const SizedBox(height: 16),
             const Text("Select a date and duration in hour"),
-            const SizedBox(height: 6),
-            DateFormField(
-              context: context,
-              onSaved: (value) {
-                controller.updateState(dateTime: value);
-              },
-            ),
-            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(
-                  child: DropdownButtonFormField<String>(
-                    borderRadius: BorderRadius.circular(2),
-                    decoration: const InputDecoration(),
-                    isExpanded: true,
-                    items: const [
-                      DropdownMenuItem(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: Text("abc"),
-                        ),
-                      ),
-                    ],
-                    onSaved: (value) {},
-                    onChanged: (value) {},
+                  child: DateFormField(
+                    context: context,
+                    onSaved: (value) {
+                      controller.updateState(dateTime: value);
+                    },
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 6),
                 GetBuilder<CreateScheduleController>(
                   builder: (controller) {
                     return DurationPicker(
@@ -96,17 +80,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                       suffixIcon: FilterButton(
                         onTap: () {
                           context.dialog(
-                            content: Card(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Switch(
-                                    onChanged: (value) {},
-                                    value: true,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            content: const FilterPopup(),
                           );
                         },
                       ),
@@ -125,7 +99,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                   onPressed: () {
                     submitForm();
                   },
-                  child: const Text("Search"),
+                  child: const Icon(Icons.search),
                 )
               ],
             ),

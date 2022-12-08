@@ -52,10 +52,6 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
               ),
               if (isMediumOrLargeScreen) ...[
                 const SizedBox(width: 16),
-                Container(
-                  alignment: Alignment.center,
-                  child: const Icon(Icons.arrow_right),
-                ),
                 Expanded(
                   flex: 4,
                   child: Column(
@@ -145,11 +141,14 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
       controller.updateState(selectedUser: schedule);
       return;
     }
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("Pick a time slot"),
-        content: PickTimeSlotWidget(),
+    context.dialog(
+      title: "Pick a time slot",
+      negativeText: 'Create',
+      positiveText: 'Cancel',
+      content: const SizedBox(
+        width: 500,
+        height: 500,
+        child: PickTimeSlotWidget(),
       ),
     );
   }
