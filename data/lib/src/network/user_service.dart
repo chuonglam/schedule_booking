@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:data/data.dart';
+import 'package:data/src/common/exts.dart';
 import 'package:data/src/models/user_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
@@ -17,10 +18,13 @@ class UserService {
 
   Future<List<UserModel>> getUsersList(int skip, int limit,
       {String? nameSearch}) async {
+    final DateTime now = DateTime.now();
     final func = ParseCloudFunction("getUsers");
     final Map<String, dynamic> params = {
       'limit': limit,
       'skip': skip,
+      'clientStartOfDay': now.startOfDay().toUtc().toString(),
+      'clientEndOfDay': now.endOfDay().toUtc().toString()
     };
     if (nameSearch != null && nameSearch.isNotEmpty) {
       params['nameSearch'] = nameSearch;

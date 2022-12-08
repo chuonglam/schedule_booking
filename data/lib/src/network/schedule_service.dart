@@ -1,19 +1,13 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:data/data.dart';
+import 'package:data/src/common/exts.dart';
 import 'package:data/src/models/schedule_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 @Singleton()
 class ScheduleService {
-  DateTime _getStartOfDay({DateTime? specifiedDate}) {
-    final DateTime now = specifiedDate ?? DateTime.now();
-    final DateTime startOfDay =
-        DateTime(now.year, now.month, now.day, 0, 0, 0, 0);
-    return startOfDay;
-  }
-
   Future<String> createSchedule({
     required DateTime startDate,
     required DateTime endDate,
@@ -26,7 +20,7 @@ class ScheduleService {
     if (user.objectId == participantId) {
       throw ParticipantIsHost();
     }
-    final DateTime startOfDay = _getStartOfDay();
+    final DateTime startOfDay = DateTime.now().startOfDay();
     final func = ParseCloudFunction("createSchedule");
     final res = await func.executeObjectFunction(parameters: {
       'startDate': startDate.toUtc().toString(),
@@ -50,7 +44,7 @@ class ScheduleService {
   }
 
   Future<List<ScheduleModel>> getTimeSlots(String participantId) async {
-    final DateTime startOfDay = _getStartOfDay();
+    final DateTime startOfDay = DateTime.now().startOfDay();
     final func = ParseCloudFunction("getTimeSlots");
     final res = await func.executeObjectFunction(parameters: {
       'participantId': participantId,
@@ -76,7 +70,7 @@ class ScheduleService {
     required int skip,
     DateTime? date,
   }) async {
-    final DateTime startOfDay = _getStartOfDay(specifiedDate: date);
+    final DateTime startOfDay = (date ?? DateTime.now()).startOfDay();
     final func = ParseCloudFunction("getUserTimeSlots");
     final res = await func.executeObjectFunction(parameters: {
       'limit': limit,
