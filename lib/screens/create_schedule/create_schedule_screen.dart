@@ -4,6 +4,7 @@ import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schedule_booking/common/exts.dart';
+import 'package:schedule_booking/common/widgets/empty_state.dart';
 import 'package:schedule_booking/common/widgets/schedule_confirmation.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
@@ -77,8 +78,11 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
                               child: Obx(() {
                                 if (controller.state.selectedUser == null) {
                                   return Container(
-                                      alignment: Alignment.center,
-                                      child: const Text("Please pick a user"));
+                                    alignment: Alignment.center,
+                                    child: const EmptyState(
+                                      title: "Select a user to continue",
+                                    ),
+                                  );
                                 }
                                 return const PickTimeSlotWidget();
                               }),

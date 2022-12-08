@@ -1,6 +1,7 @@
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:schedule_booking/common/widgets/empty_state.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 
 class PickUserWidget extends GetView<CreateScheduleController> {
@@ -13,9 +14,15 @@ class PickUserWidget extends GetView<CreateScheduleController> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading && controller.users.isEmpty) {
-        return Container(
-          alignment: Alignment.center,
-          child: const CircularProgressIndicator(),
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (controller.users.isEmpty) {
+        return const Center(
+          child: EmptyState(
+            title: "No users found",
+          ),
         );
       }
       return ListView.builder(

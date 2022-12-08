@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:schedule_booking/common/styles.dart';
 
 class EmptyState extends StatelessWidget {
@@ -23,7 +20,11 @@ class EmptyState extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          Image.asset('assets/img/empty.png'),
+          Image.asset(
+            'assets/img/empty.png',
+            width: 150,
+            fit: BoxFit.contain,
+          ),
         ],
       ),
     );
