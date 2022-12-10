@@ -50,6 +50,7 @@ class ScheduleConfirmation extends StatelessWidget {
                       Text(
                         data.calendarDateTime
                             .format(formatter: 'MMM dd, HH:mm'),
+                        textAlign: TextAlign.center,
                         style: AppStyles.bold.copyWith(
                           color: AppStyles.mainColor,
                           fontSize: 14,

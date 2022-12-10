@@ -28,7 +28,9 @@ class ScheduleCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: schedule.endDate.isBefore(DateTime.now())
                   ? const Color(0xFFDEDEDE) // Color(0xFFC7B7EB)
-                  : AppStyles.mainColor,
+                  : (schedule.startDate.isToday())
+                      ? AppStyles.mainColor
+                      : const Color(0xFFC7B7EB),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -70,7 +72,7 @@ class ScheduleCard extends StatelessWidget {
                       TextSpan(
                         text: schedule.startDate.format(formatter: 'HH:mm'),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: ' - ',
                           ),
                           TextSpan(
