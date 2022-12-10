@@ -9,6 +9,11 @@ extension DateTimeX on DateTime {
     final format = DateFormat(formatter ?? 'MM-dd-yyyy');
     return format.format(this);
   }
+
+  bool isToday() {
+    final DateTime now = DateTime.now();
+    return (now.day == day && now.month == month && now.year == year);
+  }
 }
 
 extension TimeRegionX on TimeRegion {

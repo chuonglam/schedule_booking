@@ -33,7 +33,9 @@ class PickTimeSlotWidget extends StatelessWidget {
           viewNavigationMode: ViewNavigationMode.none,
           showCurrentTimeIndicator: false,
           cellEndPadding: 0,
-          timeSlotViewSettings: const TimeSlotViewSettings(),
+          timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 30),
+          ),
           allowDragAndDrop: true,
           initialDisplayDate: controller.state.calendarDateTime,
           minDate: now,
@@ -41,7 +43,17 @@ class PickTimeSlotWidget extends StatelessWidget {
             if (value.droppingTime == null) {
               return;
             }
-            controller.updateState(dateTime: value.droppingTime);
+            DateTime selectedDate = value.droppingTime!;
+            final Appointment? appointment = value.appointment as Appointment?;
+            if (appointment == null) {
+              return;
+            }
+            if (appointment.endTime.isToday() != true) {
+              selectedDate = DateTime(selectedDate.year, selectedDate.month,
+                      selectedDate.day, 23, 59, 59, 999)
+                  .subtract(controller.state.duration);
+            }
+            controller.updateState(dateTime: selectedDate);
           },
         );
       },

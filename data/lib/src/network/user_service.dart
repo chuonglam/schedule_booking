@@ -19,7 +19,8 @@ class UserService {
   Future<List<UserModel>> getUsersList(int durationInMins,
       {DateTime? fromDate, String? nameSearch}) async {
     if (fromDate != null) {
-      fromDate = fromDate.isToday() ? DateTime.now() : fromDate.startOfDay();
+      fromDate =
+          fromDate.isToday() ? DateTime.now() : fromDate.beginningOfDay();
     }
     fromDate ??= DateTime.now();
     final func = ParseCloudFunction("getUsers");

@@ -103,7 +103,8 @@ class CreateScheduleController extends GetxController with LoadingController {
   }
 
   void _getTimeSlots(String participantId) async {
-    final result = await _scheduleRepository.getTimeSlots(participantId);
+    final result = await _scheduleRepository.getTimeSlots(
+        participantId, state.calendarDateTime);
     if (result.success) {
       _rxBusyAreas.assignAll(result.data ?? []);
     }

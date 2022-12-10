@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
+
 extension DateTimeX on DateTime {
-  DateTime startOfDay() {
+  DateTime beginningOfDay() {
     final DateTime startOfDay = DateTime(year, month, day, 0, 0, 0, 0);
     return startOfDay;
   }

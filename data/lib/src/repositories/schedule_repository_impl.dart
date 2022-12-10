@@ -33,9 +33,13 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   }
 
   @override
-  Future<AppResult<List<Schedule>>> getTimeSlots(String participantId) async {
+  Future<AppResult<List<Schedule>>> getTimeSlots(
+    String participantId,
+    DateTime? fromDate,
+  ) async {
     try {
-      final res = await _scheduleService.getTimeSlots(participantId);
+      final res = await _scheduleService.getTimeSlots(
+          participantId: participantId, fromDate: fromDate);
       return AppResult.success(res.map((e) => e.toSchedule()).toList());
     } on AppError catch (e) {
       //todo: handle exceptions
