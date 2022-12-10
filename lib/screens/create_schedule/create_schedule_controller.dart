@@ -143,14 +143,19 @@ class CreateScheduleController extends GetxController with LoadingController {
       return;
     }
     final String? searchByName = state.userNameInput;
+    final int durationInMins = state.duration.inMinutes;
+    final DateTime selectedDate = state.calendarDateTime;
     _users.clear();
     _resetData();
     isLoading = true;
-    final result = await _userRepository.getUsersList(nameSearch: searchByName);
+    final result = await _userRepository.getUsersList(
+      durationInMins: durationInMins,
+      nameSearch: searchByName,
+      fromDate: selectedDate,
+    );
     isLoading = false;
     if (result.success) {
       _users.assignAll(result.data ?? []);
-      _users.refresh();
     }
   }
 }

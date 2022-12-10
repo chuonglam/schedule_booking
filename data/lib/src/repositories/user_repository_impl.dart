@@ -22,10 +22,17 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<AppResult<List<User>>> getUsersList({String? nameSearch}) async {
+  Future<AppResult<List<User>>> getUsersList({
+    required int durationInMins,
+    String? nameSearch,
+    DateTime? fromDate,
+  }) async {
     try {
-      final data =
-          await _userService.getUsersList(0, 50, nameSearch: nameSearch);
+      final data = await _userService.getUsersList(
+        durationInMins,
+        nameSearch: nameSearch,
+        fromDate: fromDate,
+      );
       return AppResult.success(data.map((e) => e.toUser()).toList());
     } catch (e) {
       //todo: handle exceptions

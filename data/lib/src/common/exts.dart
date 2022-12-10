@@ -8,4 +8,9 @@ extension DateTimeX on DateTime {
     final DateTime endOfDay = DateTime(year, month, day, 23, 59, 59, 999);
     return endOfDay;
   }
+
+  bool isToday() {
+    final DateTime now = DateTime.now();
+    return (now.day == day && now.month == month && now.year == year);
+  }
 }

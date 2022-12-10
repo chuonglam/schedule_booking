@@ -23,10 +23,10 @@ class ScheduleService {
     final DateTime startOfDay = DateTime.now().startOfDay();
     final func = ParseCloudFunction("createSchedule");
     final res = await func.executeObjectFunction(parameters: {
-      'startDate': startDate.toUtc().toString(),
-      'endDate': endDate.toUtc().toString(),
+      'fromDate': startDate.toUtc().toString(),
+      'toDate': endDate.toUtc().toString(),
       'participantId': participantId,
-      'clientStartOfDay': startOfDay.toUtc().toString(),
+      'beginningOfDay': startOfDay.toUtc().toString(),
     });
     if (res.success) {
       return 'success';
@@ -48,7 +48,7 @@ class ScheduleService {
     final func = ParseCloudFunction("getTimeSlots");
     final res = await func.executeObjectFunction(parameters: {
       'participantId': participantId,
-      'clientStartOfDay': startOfDay.toUtc().toString(),
+      'beginningOfDay': startOfDay.toUtc().toString(),
     });
     if (res.success) {
       return (res.result['result'] as List<dynamic>)
@@ -75,7 +75,7 @@ class ScheduleService {
     final res = await func.executeObjectFunction(parameters: {
       'limit': limit,
       'skip': skip,
-      'clientStartOfDay': startOfDay.toUtc().toString(),
+      'beginningOfDay': startOfDay.toUtc().toString(),
     });
     if (res.success) {
       return (res.result['result'] as List<dynamic>)

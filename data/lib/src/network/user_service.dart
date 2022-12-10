@@ -16,15 +16,17 @@ class UserService {
     return UserModel.fromJson(user.toJson());
   }
 
-  Future<List<UserModel>> getUsersList(int skip, int limit,
-      {String? nameSearch}) async {
-    final DateTime now = DateTime.now();
+  Future<List<UserModel>> getUsersList(int durationInMins,
+      {DateTime? fromDate, String? nameSearch}) async {
+    if (fromDate != null) {
+      fromDate = fromDate.isToday() ? DateTime.now() : fromDate.startOfDay();
+    }
+    fromDate ??= DateTime.now();
     final func = ParseCloudFunction("getUsers");
     final Map<String, dynamic> params = {
-      'limit': limit,
-      'skip': skip,
-      'clientStartOfDay': now.startOfDay().toUtc().toString(),
-      'clientEndOfDay': now.endOfDay().toUtc().toString()
+      'fromDate': fromDate.toUtc().toString(),
+      'toDate': fromDate.endOfDay().toUtc().toString(),
+      'durationInMins': durationInMins,
     };
     if (nameSearch != null && nameSearch.isNotEmpty) {
       params['nameSearch'] = nameSearch;
