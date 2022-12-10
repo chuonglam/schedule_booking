@@ -137,11 +137,12 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
 
   void _onTapUser(
       BuildContext context, bool isMediumOrLargeScreen, User schedule) {
+    controller.updateState(selectedUser: schedule);
     if (isMediumOrLargeScreen) {
-      controller.updateState(selectedUser: schedule);
       return;
     }
-    context.dialog(
+    context
+        .dialog(
       title: "Pick a time slot",
       negativeText: 'Create',
       positiveText: 'Cancel',
@@ -150,6 +151,11 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
         height: 500,
         child: PickTimeSlotWidget(),
       ),
-    );
+    )
+        .then((value) {
+      if (value == false) {
+        _onClickCreateSchedule(context);
+      }
+    });
   }
 }
