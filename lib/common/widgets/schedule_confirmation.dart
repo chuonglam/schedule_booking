@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_booking/common/exts.dart';
-import 'package:schedule_booking/common/widgets/logo.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/models/schedule_params.dart';
 

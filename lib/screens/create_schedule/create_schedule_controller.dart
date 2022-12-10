@@ -51,9 +51,7 @@ class CreateScheduleController extends GetxController with LoadingController {
       endTime: end,
       subject:
           '${start.format(formatter: 'HH:mm')} - ${end.format(formatter: "HH:mm")}',
-      startTimeZone: '',
       color: AppStyles.mainColor,
-      endTimeZone: '',
     );
   }
 
