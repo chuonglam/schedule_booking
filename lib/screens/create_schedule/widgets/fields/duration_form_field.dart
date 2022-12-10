@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:schedule_booking/common/constants.dart';
 
 class DurationPicker extends StatefulWidget {
   const DurationPicker({
@@ -51,6 +50,7 @@ class _DurationPickerState extends State<DurationPicker> {
               counterText: '',
               contentPadding: EdgeInsets.symmetric(vertical: 16),
             ),
+            onChanged: (_) => _onChanged(),
           ),
         ),
         const Text(":"),
@@ -109,9 +109,14 @@ class _DurationPickerState extends State<DurationPicker> {
   int get _minute =>
       int.tryParse(_minuteController?.text ?? '') ?? _minimumDurationInMinute;
 
+  void _onChanged() {
+    widget.onChanged?.call(Duration(hours: _hour, minutes: _minute));
+  }
+
   void _increase() {
-    int minutes = _minute + _stepInMinute;
     int hours = _hour;
+    int minutes = _minute + _stepInMinute;
+
     if (minutes >= Duration.minutesPerHour) {
       minutes = 0;
       hours++;
