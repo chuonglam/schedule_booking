@@ -1,6 +1,6 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/models/appointment_data_source.dart';

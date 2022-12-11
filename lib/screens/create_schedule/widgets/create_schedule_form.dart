@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
+import 'package:common/common.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/common/widgets/filter_popup.dart';
+import 'package:schedule_booking/common/widgets/logo.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/date_form_field.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/duration_form_field.dart';
@@ -80,6 +81,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                       suffixIcon: FilterButton(
                         onTap: () {
                           context.dialog(
+                            icon: const AppLogo(),
                             content: const FilterPopup(),
                           );
                         },

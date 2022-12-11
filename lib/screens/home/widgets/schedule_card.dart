@@ -1,7 +1,7 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/styles.dart';
 
 class ScheduleCard extends StatelessWidget {

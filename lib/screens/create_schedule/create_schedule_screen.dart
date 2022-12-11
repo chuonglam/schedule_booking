@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
-import 'package:schedule_booking/common/widgets/empty_state.dart';
-import 'package:schedule_booking/common/widgets/schedule_confirmation.dart';
 import 'package:schedule_booking/common/styles.dart';
+import 'package:schedule_booking/common/widgets/empty_state.dart';
+import 'package:schedule_booking/common/widgets/logo.dart';
+import 'package:schedule_booking/common/widgets/schedule_confirmation.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_widget.dart';
@@ -113,6 +114,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
   void _onClickCreateSchedule(BuildContext context) async {
     final negative = await context.dialog(
       positiveText: 'Cancel',
+      icon: const AppLogo(),
       negativeText: 'Create',
       title: 'Confirmation',
       subtitle:
@@ -131,6 +133,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
     }
     context.dialog(
       title: 'Error',
+      icon: const AppLogo(),
       content: Text(errorMessage),
     );
   }

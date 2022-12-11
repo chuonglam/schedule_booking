@@ -1,6 +1,6 @@
 import 'package:data/data.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/constants.dart';
+import 'package:common/src/constants.dart';
 import 'package:schedule_booking/common/load_more_controller.dart';
 
 class UserScheduleController extends GetxController

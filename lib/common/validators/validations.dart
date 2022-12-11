@@ -1,4 +1,4 @@
-import 'package:schedule_booking/common/exts.dart';
+import 'package:common/common.dart';
 
 abstract class Validation {
   final String? errorMessage;

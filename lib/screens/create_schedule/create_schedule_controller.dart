@@ -1,5 +1,6 @@
 import 'package:data/data.dart';
 import 'package:get/get.dart';
+import 'package:common/common.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/loading_controller.dart';
 import 'package:schedule_booking/common/styles.dart';

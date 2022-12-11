@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:common/common.dart';
 import 'package:data/data.dart';
-import 'package:data/src/common/exts.dart';
 import 'package:data/src/models/user_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';

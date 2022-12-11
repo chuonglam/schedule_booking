@@ -1,7 +1,7 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/constants.dart';
 
 mixin LoadMoreController<T> on GetxController {
   final ScrollController scrollController = ScrollController();

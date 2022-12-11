@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
+import 'package:common/common.dart';
 import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
 import 'package:schedule_booking/screens/home/widgets/schedules_view.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

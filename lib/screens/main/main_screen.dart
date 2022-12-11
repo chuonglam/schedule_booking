@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:schedule_booking/common/exts.dart';
+import 'package:common/common.dart';
 import 'package:schedule_booking/common/styles.dart';
-import 'package:schedule_booking/common/widgets/logout_confirmation.dart';
 import 'package:schedule_booking/common/widgets/user_menu.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
 import 'package:schedule_booking/screens/auth/auth_screen.dart';
@@ -42,13 +41,13 @@ class MainScreen extends GetView<MainController> {
                   destinations: [
                     NavigationRailDestination(
                       icon: SvgPicture.asset(
-                        "assets/svg/ic_overview.svg",
+                        "ic_overview.svg".svgPath,
                         width: 20,
                         height: 20,
                       ),
                       label: const Text("Your schedule"),
                       selectedIcon: SvgPicture.asset(
-                        "assets/svg/ic_overview.svg",
+                        "ic_overview.svg".svgPath,
                         color: AppStyles.mainColor,
                         width: 20,
                         height: 20,
@@ -56,13 +55,13 @@ class MainScreen extends GetView<MainController> {
                     ),
                     NavigationRailDestination(
                       icon: SvgPicture.asset(
-                        "assets/svg/ic_schedule.svg",
+                        "ic_schedule.svg".svgPath,
                         width: 20,
                         height: 20,
                       ),
                       label: const Text("Create schedule"),
                       selectedIcon: SvgPicture.asset(
-                        "assets/svg/ic_schedule.svg",
+                        "ic_schedule.svg".svgPath,
                         color: AppStyles.mainColor,
                         width: 20,
                         height: 20,

@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule_booking/common/styles.dart';
 
@@ -21,7 +22,7 @@ class EmptyState extends StatelessWidget {
             ),
           ),
           Image.asset(
-            'assets/img/empty.png',
+            "empty.png".imgPath,
             width: 150,
             fit: BoxFit.contain,
           ),
