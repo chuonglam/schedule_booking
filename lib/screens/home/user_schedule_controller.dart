@@ -1,6 +1,6 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:get/get.dart';
-import 'package:common/src/constants.dart';
 import 'package:schedule_booking/common/load_more_controller.dart';
 
 class UserScheduleController extends GetxController
@@ -9,6 +9,14 @@ class UserScheduleController extends GetxController
   UserScheduleController({
     required ScheduleRepository scheduleRepository,
   }) : _scheduleRepository = scheduleRepository;
+
+  static UserScheduleController? get instance {
+    try {
+      return Get.find<UserScheduleController>();
+    } catch (e) {
+      return null;
+    }
+  }
 
   final Rx<DateTime> _rxSelectedDate = Rx<DateTime>(DateTime.now());
   DateTime get selectedDate => _rxSelectedDate.value;

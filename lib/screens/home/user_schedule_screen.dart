@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:common/common.dart';
-import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:schedule_booking/screens/home/widgets/schedules_calendar.dart';
 import 'package:schedule_booking/screens/home/widgets/schedules_list.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class UserScheduleScreen extends StatelessWidget {
   const UserScheduleScreen({super.key});
@@ -16,6 +13,7 @@ class UserScheduleScreen extends StatelessWidget {
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SchedulesCalendar(),
             if (!isSmallScreen)

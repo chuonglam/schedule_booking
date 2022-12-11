@@ -13,6 +13,14 @@ class CreateScheduleController extends GetxController with LoadingController {
   final ScheduleRepository _scheduleRepository;
   final UserRepository _userRepository;
 
+  static CreateScheduleController? get instance {
+    try {
+      return Get.find<CreateScheduleController>();
+    } catch (_) {
+      return null;
+    }
+  }
+
   CreateScheduleController(
       {required ScheduleRepository scheduleRepository,
       required UserRepository userRepository})
@@ -163,6 +171,13 @@ class CreateScheduleController extends GetxController with LoadingController {
 
   void _resetState() {
     _rxState.value = _rxState.value.reset();
+  }
+
+  void resetAll() {
+    _resetState();
+    clearFilter();
+    _initAppointment();
+    _rxBusyAreas.clear();
   }
 
   void clearFilter() {

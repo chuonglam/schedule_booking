@@ -18,6 +18,11 @@ class MainBody extends GetView<MainController> {
           children: [
             GetX<AuthController>(
               builder: (authController) {
+                if (authController.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
                 if (authController.currentUser != null) {
                   return const UserScheduleScreen();
                 }

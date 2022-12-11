@@ -26,7 +26,10 @@ class AuthController extends GetxController with LoadingController {
   }
 
   void _init() async {
+    isLoading = true;
+    error = null;
     final result = await _userRepository.getCurrentUser();
+    isLoading = false;
     if (result.success) {
       _currentUser.value = result.data;
     }

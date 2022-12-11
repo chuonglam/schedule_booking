@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:common/common.dart';
 import 'package:schedule_booking/common/widgets/logout_confirmation.dart';
 import 'package:schedule_booking/screens/auth/auth_controller.dart';
+import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 
 class UserMenu extends StatelessWidget {
   const UserMenu({super.key});
@@ -56,6 +57,7 @@ class UserMenu extends StatelessWidget {
         return;
       }
       authController.logout();
+      CreateScheduleController.instance?.resetAll();
     });
   }
 }

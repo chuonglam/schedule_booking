@@ -12,6 +12,8 @@ import 'package:schedule_booking/screens/create_schedule/create_schedule_control
 import 'package:schedule_booking/screens/create_schedule/widgets/create_schedule_form.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_widget.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_user_widget.dart';
+import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
+import 'package:schedule_booking/screens/main/main_controller.dart';
 import 'package:schedule_booking/screens/main/main_screen.dart';
 
 class CreateScheduleScreen extends GetView<CreateScheduleController> {
@@ -128,7 +130,10 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
     }
     final String? errorMessage = await controller.createSchedule();
     if (errorMessage == null) {
-      Get.offNamedUntil('/$MainScreen', (route) => true);
+      // Get.offNamedUntil('/$MainScreen', (route) => true);
+      controller.resetAll();
+      MainController.instance?.reset();
+      UserScheduleController.instance?.doRefreshData();
       return;
     }
     context.dialog(
@@ -139,13 +144,12 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
   }
 
   void _onTapUser(
-      BuildContext context, bool isMediumOrLargeScreen, User schedule) {
+      BuildContext context, bool isMediumOrLargeScreen, User schedule) async {
     controller.updateState(selectedUser: schedule);
     if (isMediumOrLargeScreen) {
       return;
     }
-    context
-        .dialog(
+    final bool? cancelClicked = await context.dialog(
       title: "Pick a time slot",
       negativeText: 'Create',
       positiveText: 'Cancel',
@@ -154,11 +158,9 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
         height: 500,
         child: PickTimeSlotWidget(),
       ),
-    )
-        .then((value) {
-      if (value == false) {
-        _onClickCreateSchedule(context);
-      }
-    });
+    );
+    if (cancelClicked == false) {
+      _onClickCreateSchedule(context);
+    }
   }
 }
