@@ -173,13 +173,14 @@ class _SignupFormState extends State<_SignupForm> {
             ),
             const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GetX<SignUpController>(
                   builder: (signUpController) {
                     if (signUpController.error != null) {
                       return Text(
                         signUpController.error!,
+                        textAlign: TextAlign.center,
                         style: AppStyles.medium.copyWith(
                           color: kErrorColor,
                           fontSize: 12,

@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Schedule booking',
+      debugShowCheckedModeBanner: false,
       getPages: AppRouter.pages,
       initialBinding: AppBinding(),
       theme: AppStyles.theme(context),
