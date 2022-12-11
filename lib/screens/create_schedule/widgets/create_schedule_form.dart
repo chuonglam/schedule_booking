@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:common/common.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/fields/name_search_field.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/search_name_widget.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/filter_form.dart';
 import 'package:schedule_booking/common/widgets/logo.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/fields/date_form_field.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/fields/duration_form_field.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/pick_date_widget.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/pick_duration_widget.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/filter_button.dart';
 
 class CreateScheduleForm extends GetView<CreateScheduleController> {
@@ -32,7 +32,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
             Row(
               children: [
                 Expanded(
-                  child: DateFormField(
+                  child: PickDateWidget(
                     context: context,
                     onSaved: (value) {
                       controller.updateState(dateTime: value);
@@ -40,7 +40,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                   ),
                 ),
                 const SizedBox(width: 6),
-                DurationPicker(
+                PickDurationWidget(
                   onChanged: (hour) => controller.updateState(duration: hour),
                 ),
               ],
@@ -50,7 +50,7 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: NameSearchField(
+                  child: SearchNameWidget(
                     onFieldSubmitted: _submitForm,
                   ),
                 ),

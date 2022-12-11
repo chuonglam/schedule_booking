@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DurationPicker extends StatefulWidget {
-  const DurationPicker({
+class PickDurationWidget extends StatefulWidget {
+  const PickDurationWidget({
     super.key,
     this.onChanged,
   });
   final void Function(Duration)? onChanged;
   @override
-  State<DurationPicker> createState() => _DurationPickerState();
+  State<PickDurationWidget> createState() => _PickDurationWidgetState();
 }
 
-class _DurationPickerState extends State<DurationPicker> {
+class _PickDurationWidgetState extends State<PickDurationWidget> {
   TextEditingController? _hourController;
   TextEditingController? _minuteController;
   final int _minimumDurationInMinute = 30;

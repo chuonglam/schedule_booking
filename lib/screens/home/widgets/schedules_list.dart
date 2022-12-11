@@ -5,8 +5,8 @@ import 'package:schedule_booking/common/widgets/empty_state.dart';
 import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
 import 'package:schedule_booking/screens/home/widgets/schedule_card.dart';
 
-class SchedulesView extends StatelessWidget {
-  const SchedulesView({super.key});
+class SchedulesList extends StatelessWidget {
+  const SchedulesList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,9 @@ class SchedulesView extends StatelessWidget {
     return GetX<UserScheduleController>(
       builder: (controller) {
         if (controller.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
         if (controller.data.isEmpty) {

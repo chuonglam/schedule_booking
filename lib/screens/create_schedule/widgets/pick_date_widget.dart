@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:common/common.dart';
 import 'package:schedule_booking/common/date_text_formatter.dart';
 
-class DateFormField extends FormField<DateTime> {
-  DateFormField({
+class PickDateWidget extends FormField<DateTime> {
+  PickDateWidget({
     required BuildContext context,
     FormFieldSetter<DateTime>? onSaved,
     FormFieldValidator<DateTime>? validator,

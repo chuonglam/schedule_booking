@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 
-class NameSearchField extends GetView<CreateScheduleController> {
-  const NameSearchField({
+class SearchNameWidget extends GetView<CreateScheduleController> {
+  const SearchNameWidget({
     super.key,
     this.onFieldSubmitted,
   });
