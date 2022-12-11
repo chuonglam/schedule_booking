@@ -15,7 +15,7 @@ class FilterButton extends StatelessWidget {
       hoverColor: Colors.transparent,
       icon: SvgPicture.asset(
         "ic_filter.svg".svgPath,
-        color: hasData ? AppStyles.mainColor : null,
+        color: hasData ? AppStyles.mainColor : const Color(0xFFCDCDCD),
       ),
       onPressed: onTap,
     );

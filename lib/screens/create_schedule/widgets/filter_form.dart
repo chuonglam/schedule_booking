@@ -9,6 +9,7 @@ class FilterForm extends GetView<CreateScheduleController> {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
     return Card(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -28,8 +29,8 @@ class FilterForm extends GetView<CreateScheduleController> {
                   onPressed: () {
                     showTimePicker(
                       context: context,
-                      initialTime:
-                          controller.filter?.fromTime ?? TimeOfDay.now(),
+                      initialTime: controller.filter?.fromTime ??
+                          TimeOfDay.fromDateTime(now),
                     ).then((value) {
                       _updateFilter(context, fromTime: value);
                     });
@@ -42,7 +43,9 @@ class FilterForm extends GetView<CreateScheduleController> {
                   onPressed: () {
                     showTimePicker(
                       context: context,
-                      initialTime: controller.filter?.toTime ?? TimeOfDay.now(),
+                      initialTime: controller.filter?.toTime ??
+                          TimeOfDay.fromDateTime(now.add(const Duration(
+                              minutes: defaultBookingScheduleTimeInMins))),
                     ).then((value) {
                       _updateFilter(context, toTime: value);
                     });

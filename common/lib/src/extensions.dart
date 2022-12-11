@@ -36,6 +36,22 @@ extension DurationX on Duration {
   }
 }
 
+extension StringX on String {
+  bool isValidUsername() {
+    final regex = RegExp(r"^[A-Za-z][A-Za-z0-9_]{4,16}$");
+    return regex.hasMatch(this);
+  }
+
+  bool isValidEmail() {
+    final regex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    return regex.hasMatch(this);
+  }
+
+  String get imgPath => "assets/img/$this";
+
+  String get svgPath => "assets/svg/$this";
+}
+
 extension BuildContextX on BuildContext {
   bool get isSmallScreen => MediaQuery.of(this).size.width < 650;
 
@@ -114,20 +130,4 @@ extension BuildContextX on BuildContext {
       },
     );
   }
-}
-
-extension StringX on String {
-  bool isValidUsername() {
-    final regex = RegExp(r"^[A-Za-z][A-Za-z0-9_]{4,16}$");
-    return regex.hasMatch(this);
-  }
-
-  bool isValidEmail() {
-    final regex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-    return regex.hasMatch(this);
-  }
-
-  String get imgPath => "assets/img/$this";
-
-  String get svgPath => "assets/svg/$this";
 }
