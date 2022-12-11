@@ -21,6 +21,10 @@ extension DateTimeX on DateTime {
     final DateTime now = DateTime.now();
     return (now.day == day && now.month == month && now.year == year);
   }
+
+  DateTime setTime(TimeOfDay tod) {
+    return DateTime(year, month, day, tod.hour, tod.minute, 0, 0, 0);
+  }
 }
 
 extension DurationX on Duration {
@@ -47,6 +51,7 @@ extension BuildContextX on BuildContext {
   Future<bool?> dialog({
     String? title,
     String? subtitle,
+    bool barrierDismissible = true,
     Widget? content,
     Widget? icon,
     String? negativeText,
@@ -54,7 +59,7 @@ extension BuildContextX on BuildContext {
   }) async {
     return showDialog<bool>(
       context: this,
-      barrierDismissible: true,
+      barrierDismissible: barrierDismissible,
       builder: (ctx) {
         return AlertDialog(
           actionsPadding: const EdgeInsets.all(16),

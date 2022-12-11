@@ -26,11 +26,12 @@ class ScheduleModel {
     );
   }
 
-  Schedule toSchedule() => Schedule(
+  Schedule toSchedule({String? currentUserId}) => Schedule(
         objectId: objectId,
         startDate: startDate,
         endDate: endDate,
         host: host.toUser(),
         participant: participant.toUser(),
+        currentUserId: currentUserId,
       );
 }

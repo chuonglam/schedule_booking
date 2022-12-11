@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:data/src/models/user_model.dart';
 import 'package:injectable/injectable.dart';
@@ -16,17 +15,16 @@ class UserService {
     return UserModel.fromJson(user.toJson());
   }
 
-  Future<List<UserModel>> getUsersList(int durationInMins,
-      {DateTime? fromDate, String? nameSearch}) async {
-    if (fromDate != null) {
-      fromDate =
-          fromDate.isToday() ? DateTime.now() : fromDate.beginningOfDay();
-    }
-    fromDate ??= DateTime.now();
+  Future<List<UserModel>> getUsersList({
+    required int durationInMins,
+    required DateTime fromDateTime,
+    required DateTime toDateTime,
+    String? nameSearch,
+  }) async {
     final func = ParseCloudFunction("getUsers");
     final Map<String, dynamic> params = {
-      'fromDate': fromDate.toUtc().toString(),
-      'toDate': fromDate.endOfDay().toUtc().toString(),
+      'fromDate': fromDateTime.toUtc().toString(),
+      'toDate': toDateTime.toUtc().toString(),
       'durationInMins': durationInMins,
     };
     if (nameSearch != null && nameSearch.isNotEmpty) {

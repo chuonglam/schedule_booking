@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:common/common.dart';
-import 'package:schedule_booking/common/styles.dart';
-import 'package:schedule_booking/common/widgets/filter_popup.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/fields/name_search_field.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/filter_form.dart';
 import 'package:schedule_booking/common/widgets/logo.dart';
 import 'package:schedule_booking/screens/create_schedule/create_schedule_controller.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/date_form_field.dart';
 import 'package:schedule_booking/screens/create_schedule/widgets/fields/duration_form_field.dart';
-import 'package:schedule_booking/screens/create_schedule/widgets/filter_widget.dart';
+import 'package:schedule_booking/screens/create_schedule/widgets/filter_button.dart';
 
 class CreateScheduleForm extends GetView<CreateScheduleController> {
   final EdgeInsets padding;
@@ -40,14 +40,8 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
                   ),
                 ),
                 const SizedBox(width: 6),
-                GetBuilder<CreateScheduleController>(
-                  builder: (controller) {
-                    return DurationPicker(
-                      onChanged: (hour) {
-                        controller.updateState(duration: hour);
-                      },
-                    );
-                  },
+                DurationPicker(
+                  onChanged: (hour) => controller.updateState(duration: hour),
                 ),
               ],
             ),
@@ -56,51 +50,16 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Input user's name",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Color(0xffEAEAEA),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: AppStyles.mainColor,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Color(0xffEAEAEA),
-                        ),
-                      ),
-                      suffixIcon: FilterButton(
-                        onTap: () {
-                          context.dialog(
-                            icon: const AppLogo(),
-                            content: const FilterPopup(),
-                          );
-                        },
-                      ),
-                    ),
-                    textInputAction: TextInputAction.search,
-                    onSaved: (value) {
-                      controller.updateState(userNameInput: value);
-                    },
-                    onFieldSubmitted: (value) {
-                      submitForm();
-                    },
+                  child: NameSearchField(
+                    onFieldSubmitted: _submitForm,
                   ),
                 ),
-                const SizedBox(width: 16),
+                Obx(() => FilterButton(
+                      onTap: () => _showFilterPopup(context),
+                      hasData: controller.filter != null,
+                    )),
                 ElevatedButton(
-                  onPressed: () {
-                    submitForm();
-                  },
+                  onPressed: _submitForm,
                   child: const Icon(Icons.search),
                 )
               ],
@@ -111,8 +70,21 @@ class CreateScheduleForm extends GetView<CreateScheduleController> {
     );
   }
 
-  void submitForm() {
+  void _showFilterPopup(BuildContext context) async {
+    final isOkTapped = await context.dialog(
+        icon: const AppLogo(),
+        barrierDismissible: false,
+        content: const FilterForm(),
+        positiveText: "Clear",
+        negativeText: "OK");
+    if (isOkTapped == false) {
+      return;
+    }
+    controller.clearFilter();
+  }
+
+  void _submitForm() {
     _formKey.currentState?.save();
-    controller.search();
+    controller.searchUsers();
   }
 }

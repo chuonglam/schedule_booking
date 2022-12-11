@@ -25,7 +25,9 @@ class PickTimeSlotWidget extends StatelessWidget {
               List<TimeRegion>.from(controller.busyAreas.map((e) => TimeRegion(
                     startTime: e.startDate,
                     endTime: e.endDate,
-                    color: AppStyles.mainColor.withOpacity(0.5),
+                    color: e.own
+                        ? Colors.redAccent.withOpacity(0.5)
+                        : AppStyles.mainColor.withOpacity(0.5),
                     text:
                         "${e.startDate.format(formatter: 'HH:mm')} - ${e.endDate.format(formatter: 'HH:mm')}",
                     textStyle: AppStyles.regular,

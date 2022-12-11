@@ -26,7 +26,7 @@ class DateFormField extends FormField<DateTime> {
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: SvgPicture.asset(
-                    'assets/svg/ic_calendar.svg',
+                    "ic_calendar.svg".svgPath,
                     color: Theme.of(context).textTheme.caption?.color,
                   ),
                   splashColor: Colors.transparent,

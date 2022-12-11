@@ -10,9 +10,8 @@ import 'package:data/src/network/auth_service.dart' as _i3;
 import 'package:data/src/network/schedule_service.dart' as _i4;
 import 'package:data/src/network/user_service.dart' as _i5;
 import 'package:data/src/repositories/auth_repository_impl.dart' as _i7;
-import 'package:data/src/repositories/schedule_repository.dart' as _i8;
-import 'package:data/src/repositories/schedule_repository_impl.dart' as _i9;
-import 'package:data/src/repositories/user_repository_impl.dart' as _i10;
+import 'package:data/src/repositories/schedule_repository_impl.dart' as _i8;
+import 'package:data/src/repositories/user_repository_impl.dart' as _i9;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -34,10 +33,12 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i5.UserService>(_i5.UserService());
     gh.factory<_i6.AuthRepository>(
         () => _i7.AuthRepositoryImpl(authService: gh<_i3.AuthService>()));
-    gh.factory<_i8.ScheduleRepository>(() =>
-        _i9.ScheduleRepositoryImpl(scheduleService: gh<_i4.ScheduleService>()));
+    gh.factory<_i6.ScheduleRepository>(() => _i8.ScheduleRepositoryImpl(
+          scheduleService: gh<_i4.ScheduleService>(),
+          userService: gh<_i5.UserService>(),
+        ));
     gh.factory<_i6.UserRepository>(
-        () => _i10.UserRepositoryImpl(userService: gh<_i5.UserService>()));
+        () => _i9.UserRepositoryImpl(userService: gh<_i5.UserService>()));
     return this;
   }
 }

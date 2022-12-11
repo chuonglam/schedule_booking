@@ -1,10 +1,12 @@
 import 'package:data/data.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:common/common.dart';
 import 'package:schedule_booking/common/exts.dart';
 import 'package:schedule_booking/common/loading_controller.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/models/schedule_params.dart';
+import 'package:schedule_booking/models/users_filter_params.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CreateScheduleController extends GetxController with LoadingController {
@@ -19,24 +21,24 @@ class CreateScheduleController extends GetxController with LoadingController {
 
   final Rx<ScheduleParams> _rxState = Rx(ScheduleParams(
     calendarDateTime: DateTime.now(),
-    duration: const Duration(hours: 1),
+    duration: const Duration(minutes: defaultBookingScheduleTimeInMins),
   ));
-
   ScheduleParams get state => _rxState.value;
 
-  final RxList<User> _users = RxList([]);
+  final Rxn<UsersFilterParams> _rxFilter = Rxn();
+  UsersFilterParams? get filter => _rxFilter.value;
 
+  final RxList<User> _users = RxList([]);
   List<User> get users => _users;
 
   final RxList<Schedule> _rxBusyAreas = RxList([]);
-
   List<Schedule> get busyAreas => _rxBusyAreas;
 
   final Rxn<Appointment> _appointment = Rxn();
-
   Appointment? get appointment => _appointment.value;
 
   Worker? _onStateChanged;
+
   @override
   void onInit() {
     super.onInit();
@@ -85,18 +87,43 @@ class CreateScheduleController extends GetxController with LoadingController {
     Duration? duration,
     User? selectedUser,
     DateTime? dateTime,
-    String? userNameInput,
   }) {
     _rxState.value = _rxState.value.copyWith(
       calendarDateTime: dateTime,
       duration: duration,
-      userNameInput: userNameInput,
       selectedUser: selectedUser,
     );
     if (selectedUser != null) {
       _clearBusyAreas();
       _getTimeSlots(selectedUser.id);
     }
+  }
+
+  String? updateFilter({
+    String? usernameInput,
+    TimeOfDay? fromTime,
+    TimeOfDay? toTime,
+  }) {
+    final UsersFilterParams value = (filter ?? UsersFilterParams()).copyWith(
+      usernameInput: usernameInput,
+      fromTime: fromTime,
+      toTime: toTime,
+    );
+    if (value.fromTime != null && value.toTime != null) {
+      final DateTime now = DateTime.now();
+      if (now.setTime(value.toTime!).isBefore(now.setTime(value.fromTime!))) {
+        return '`to time` cannot be before `from time` in the same day';
+      }
+    }
+
+    if (value.userNameInput?.isEmpty == true &&
+        value.fromTime == null &&
+        value.toTime == null) {
+      clearFilter();
+      return null;
+    }
+    _rxFilter.value = value;
+    return null;
   }
 
   void _clearBusyAreas() {
@@ -134,24 +161,31 @@ class CreateScheduleController extends GetxController with LoadingController {
     return result.error?.message;
   }
 
-  void _resetData() {
+  void _resetState() {
     _rxState.value = _rxState.value.reset();
   }
 
-  void search() async {
+  void clearFilter() {
+    _rxFilter.value = null;
+  }
+
+  void searchUsers() async {
     if (isLoading) {
       return;
     }
-    final String? searchByName = state.userNameInput;
     final int durationInMins = state.duration.inMinutes;
     final DateTime selectedDate = state.calendarDateTime;
+    final String? searchByName = filter?.userNameInput;
+    final TimeOfDay? fromTime = filter?.fromTime, toTime = filter?.toTime;
     _users.clear();
-    _resetData();
+    _resetState();
     isLoading = true;
     final result = await _userRepository.getUsersList(
       durationInMins: durationInMins,
       nameSearch: searchByName,
       fromDate: selectedDate,
+      fromTime: fromTime,
+      toTime: toTime,
     );
     isLoading = false;
     if (result.success) {

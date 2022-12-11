@@ -1,6 +1,8 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:data/src/models/user_model.dart';
 import 'package:data/src/network/user_service.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: UserRepository)
@@ -26,12 +28,24 @@ class UserRepositoryImpl implements UserRepository {
     required int durationInMins,
     String? nameSearch,
     DateTime? fromDate,
+    TimeOfDay? fromTime,
+    TimeOfDay? toTime,
   }) async {
     try {
+      if (fromDate != null) {
+        if (fromTime != null) {}
+        fromDate =
+            fromDate.isToday() ? DateTime.now() : fromDate.beginningOfDay();
+      }
+      fromDate ??= DateTime.now();
+
       final data = await _userService.getUsersList(
-        durationInMins,
+        durationInMins: durationInMins,
         nameSearch: nameSearch,
-        fromDate: fromDate,
+        fromDateTime:
+            (fromTime == null) ? fromDate : fromDate.setTime(fromTime),
+        toDateTime:
+            (toTime == null) ? fromDate.endOfDay() : fromDate.setTime(toTime),
       );
       return AppResult.success(data.map((e) => e.toUser()).toList());
     } catch (e) {

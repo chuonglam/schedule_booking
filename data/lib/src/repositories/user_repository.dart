@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:flutter/material.dart';
 
 abstract class UserRepository {
   Future<AppResult<User?>> getCurrentUser();
@@ -6,5 +7,7 @@ abstract class UserRepository {
     required int durationInMins,
     String? nameSearch,
     DateTime? fromDate,
+    TimeOfDay? fromTime,
+    TimeOfDay? toTime,
   });
 }

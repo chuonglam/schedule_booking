@@ -23,9 +23,9 @@ class ScheduleService {
     final DateTime startOfDay = DateTime.now().beginningOfDay();
     final func = ParseCloudFunction("createSchedule");
     final res = await func.executeObjectFunction(parameters: {
+      'participantId': participantId,
       'fromDate': startDate.toUtc().toString(),
       'toDate': endDate.toUtc().toString(),
-      'participantId': participantId,
       'beginningOfDay': startOfDay.toUtc().toString(),
     });
     if (res.success) {
@@ -45,9 +45,8 @@ class ScheduleService {
 
   Future<List<ScheduleModel>> getTimeSlots({
     required String participantId,
-    DateTime? fromDate,
+    required DateTime fromDate,
   }) async {
-    fromDate = (fromDate ?? DateTime.now()).beginningOfDay();
     final func = ParseCloudFunction("getTimeSlots");
     final res = await func.executeObjectFunction(parameters: {
       'participantId': participantId,
@@ -69,16 +68,11 @@ class ScheduleService {
   }
 
   Future<List<ScheduleModel>> getUserTimeSlots({
-    required int limit,
-    required int skip,
-    DateTime? date,
+    required DateTime fromDate,
   }) async {
-    date = (date ?? DateTime.now()).beginningOfDay();
     final func = ParseCloudFunction("getUserTimeSlots");
     final res = await func.executeObjectFunction(parameters: {
-      'limit': limit,
-      'skip': skip,
-      'beginningOfDay': date.toUtc().toString(),
+      'beginningOfDay': fromDate.toUtc().toString(),
     });
     if (res.success) {
       return (res.result['result'] as List<dynamic>)

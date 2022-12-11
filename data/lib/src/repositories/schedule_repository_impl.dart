@@ -1,12 +1,18 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:data/src/network/schedule_service.dart';
+import 'package:data/src/network/user_service.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: ScheduleRepository)
 class ScheduleRepositoryImpl implements ScheduleRepository {
   final ScheduleService _scheduleService;
-  ScheduleRepositoryImpl({required ScheduleService scheduleService})
-      : _scheduleService = scheduleService;
+  final UserService _userService;
+  ScheduleRepositoryImpl({
+    required ScheduleService scheduleService,
+    required UserService userService,
+  })  : _scheduleService = scheduleService,
+        _userService = userService;
 
   @override
   Future<AppResult<String>> createSchedule({
@@ -23,7 +29,6 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
         endDate: startDate.add(duration),
         participantId: participantId,
       );
-      //todo: handle results
       return AppResult.success(res);
     } on AppError catch (e) {
       return AppResult.error(e);
@@ -38,14 +43,16 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
     DateTime? fromDate,
   ) async {
     try {
+      fromDate = (fromDate ?? DateTime.now()).beginningOfDay();
       final res = await _scheduleService.getTimeSlots(
           participantId: participantId, fromDate: fromDate);
-      return AppResult.success(res.map((e) => e.toSchedule()).toList());
+      final user = await _userService.currentUser();
+      return AppResult.success(List<Schedule>.from(
+          res.map((e) => e.toSchedule(currentUserId: user?.id))));
     } on AppError catch (e) {
-      //todo: handle exceptions
       return AppResult.error(e);
     } on Exception catch (e) {
-      return AppResult.error(DefaultError());
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 
@@ -53,21 +60,15 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   Future<AppResult<List<Schedule>>> getUserTimeSlots(
       {int limit = 0, int skip = 0, DateTime? date}) async {
     try {
-      final res = await _scheduleService.getUserTimeSlots(
-          limit: limit, skip: skip, date: date);
+      date = (date ?? DateTime.now()).beginningOfDay();
+
+      final res = await _scheduleService.getUserTimeSlots(fromDate: date);
       final List<Schedule> schedules = res.map((e) => e.toSchedule()).toList();
-      // schedules.sort((a, b) => a.endDate.compareTo(b.endDate));
-      // final now = DateTime.now();
-      // final idx =
-      //     schedules.lastIndexWhere((element) => element.endDate.isBefore(now));
-      // final old = schedules.getRange(0, idx + 1);
-      // schedules.addAll(old);
-      // schedules.removeRange(0, idx + 1);
       return AppResult.success(schedules);
     } on AppError catch (e) {
       return AppResult.error(e);
     } on Exception catch (e) {
-      return AppResult.error(DefaultError());
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 }
