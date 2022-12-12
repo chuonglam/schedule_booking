@@ -111,11 +111,13 @@ class CreateScheduleController extends GetxController with LoadingController {
     String? usernameInput,
     TimeOfDay? fromTime,
     TimeOfDay? toTime,
+    bool? isTimeSlotAscending,
   }) {
     final UsersFilterParams value = (filter ?? UsersFilterParams()).copyWith(
       usernameInput: usernameInput,
       fromTime: fromTime,
       toTime: toTime,
+      isTimeSlotAscending: isTimeSlotAscending,
     );
     if (value.fromTime != null && value.toTime != null) {
       final DateTime now = DateTime.now();
@@ -123,10 +125,10 @@ class CreateScheduleController extends GetxController with LoadingController {
         return '`to time` cannot be before `from time` in the same day';
       }
     }
-
-    if (value.userNameInput?.isEmpty == true &&
+    if (value.userNameInput?.isEmpty != false &&
         value.fromTime == null &&
-        value.toTime == null) {
+        value.toTime == null &&
+        value.isTimeSlotAscending) {
       clearFilter();
       return null;
     }
@@ -192,6 +194,7 @@ class CreateScheduleController extends GetxController with LoadingController {
     final DateTime selectedDate = state.calendarDateTime;
     final String? searchByName = filter?.userNameInput;
     final TimeOfDay? fromTime = filter?.fromTime, toTime = filter?.toTime;
+    final bool sortingAscending = filter?.isTimeSlotAscending ?? true;
     _users.clear();
     _resetState();
     isLoading = true;
@@ -201,6 +204,7 @@ class CreateScheduleController extends GetxController with LoadingController {
       fromDate: selectedDate,
       fromTime: fromTime,
       toTime: toTime,
+      sortAscending: sortingAscending,
     );
     isLoading = false;
     if (result.success) {

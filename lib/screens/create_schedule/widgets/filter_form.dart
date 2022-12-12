@@ -56,6 +56,24 @@ class FilterForm extends GetView<CreateScheduleController> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+            Text(
+              "Sort users list by available time slots",
+              style: AppStyles.medium,
+            ),
+            const SizedBox(height: 6),
+            TextButton(
+              onPressed: () {
+                _updateFilter(context,
+                    isTimeSlotAscending:
+                        !(controller.filter?.isTimeSlotAscending ?? true));
+              },
+              child: Obx(() => Text(
+                    (controller.filter?.isTimeSlotAscending ?? true)
+                        ? "Ascending"
+                        : "Descending",
+                  )),
+            ),
           ],
         ),
       ),
@@ -66,9 +84,13 @@ class FilterForm extends GetView<CreateScheduleController> {
     BuildContext context, {
     TimeOfDay? fromTime,
     TimeOfDay? toTime,
+    bool? isTimeSlotAscending,
   }) {
-    String? errorMessage =
-        controller.updateFilter(fromTime: fromTime, toTime: toTime);
+    String? errorMessage = controller.updateFilter(
+      fromTime: fromTime,
+      toTime: toTime,
+      isTimeSlotAscending: isTimeSlotAscending,
+    );
     if (errorMessage == null) {
       return;
     }

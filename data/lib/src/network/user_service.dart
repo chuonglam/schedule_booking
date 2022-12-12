@@ -20,12 +20,14 @@ class UserService {
     required DateTime fromDateTime,
     required DateTime toDateTime,
     String? nameSearch,
+    required String sorting,
   }) async {
     final func = ParseCloudFunction("getUsers");
     final Map<String, dynamic> params = {
       'fromDate': fromDateTime.toUtc().toString(),
       'toDate': toDateTime.toUtc().toString(),
       'durationInMins': durationInMins,
+      'sorting': sorting,
     };
     if (nameSearch != null && nameSearch.isNotEmpty) {
       params['nameSearch'] = nameSearch;

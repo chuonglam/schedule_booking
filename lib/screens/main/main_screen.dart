@@ -20,9 +20,9 @@ class MainScreen extends GetView<MainController> {
         leading: const AppLogo(size: 60),
         title: Text(DateTime.now().format(formatter: 'EEEE, MMM dd yyyy')),
         centerTitle: true,
-        actions: [
-          if (isMediumOrLargeScreen) const UserMenu(),
-          const SizedBox(width: 16),
+        actions: const [
+          UserMenu(),
+          SizedBox(width: 16),
         ],
       ),
       backgroundColor: Colors.white,

@@ -9,5 +9,6 @@ abstract class UserRepository {
     DateTime? fromDate,
     TimeOfDay? fromTime,
     TimeOfDay? toTime,
+    bool? sortAscending,
   });
 }

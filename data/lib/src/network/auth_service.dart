@@ -40,10 +40,12 @@ class AuthService {
     required String displayName,
     required String email,
   }) async {
-    var user = ParseUser.createUser(username, password, email);
+    var user = ParseUser.createUser(username, password, email.toLowerCase());
     user.set('displayName', displayName);
-    final response = await user.signUp();
+    final response = await user.signUp(doNotSendInstallationID: true);
     if (response.success) {
+      //The Parse sdk logs user in automatically, but I want the user to log in manually by themself after signing up.
+      await logout();
       return UserModel.fromJson((response.result as ParseUser).toJson());
     }
     if (response.error?.code == 202) {

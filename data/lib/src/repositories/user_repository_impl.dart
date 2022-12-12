@@ -30,6 +30,7 @@ class UserRepositoryImpl implements UserRepository {
     DateTime? fromDate,
     TimeOfDay? fromTime,
     TimeOfDay? toTime,
+    bool? sortAscending,
   }) async {
     try {
       if (fromDate != null) {
@@ -41,6 +42,7 @@ class UserRepositoryImpl implements UserRepository {
 
       final data = await _userService.getUsersList(
         durationInMins: durationInMins,
+        sorting: (sortAscending ?? true) ? 'ascending' : 'descending',
         nameSearch: nameSearch,
         fromDateTime:
             (fromTime == null) ? fromDate : fromDate.setTime(fromTime),

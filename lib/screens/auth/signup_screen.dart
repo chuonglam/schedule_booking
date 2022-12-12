@@ -1,6 +1,6 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:common/src/constants.dart';
 import 'package:schedule_booking/common/styles.dart';
 import 'package:schedule_booking/models/signup_params.dart';
 import 'package:schedule_booking/screens/auth/login_screen.dart';
@@ -145,14 +145,21 @@ class _SignupFormState extends State<_SignupForm> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _confirmPasswordController,
-                decoration: const InputDecoration(
-                  hintText: "Confirm password",
-                  prefixIcon: Icon(Icons.password),
-                ),
-                obscureText: true,
-                obscuringCharacter: "*",
+              child: GetBuilder<SignUpController>(
+                builder: (signUpController) {
+                  return TextFormField(
+                    controller: _confirmPasswordController,
+                    decoration: const InputDecoration(
+                      hintText: "Confirm password",
+                      prefixIcon: Icon(Icons.password),
+                    ),
+                    onFieldSubmitted: (value) {
+                      _onSignUpPressed(signUpController);
+                    },
+                    obscureText: true,
+                    obscuringCharacter: "*",
+                  );
+                },
               ),
             ),
             const SizedBox(height: 8),
@@ -220,6 +227,6 @@ class _SignupFormState extends State<_SignupForm> {
     if (!success) {
       return;
     }
-    Get.offNamedUntil('/$LoginScreen', (route) => false);
+    Get.offNamedUntil('/$LoginScreen', (route) => true);
   }
 }
