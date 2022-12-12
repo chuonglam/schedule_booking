@@ -50,7 +50,7 @@ class PickTimeSlotWidget extends StatelessWidget {
             if (appointment == null) {
               return;
             }
-            if (appointment.endTime.isToday() != true) {
+            if (!appointment.endTime.isTheSameDay(appointment.startTime)) {
               selectedDate = DateTime(selectedDate.year, selectedDate.month,
                       selectedDate.day, 23, 59, 59, 999)
                   .subtract(controller.state.duration);

@@ -17,6 +17,12 @@ extension DateTimeX on DateTime {
     return endOfDay;
   }
 
+  bool isTheSameDay(DateTime anotherDate) {
+    return anotherDate.year == year &&
+        anotherDate.month == month &&
+        anotherDate.day == day;
+  }
+
   bool isToday() {
     final DateTime now = DateTime.now();
     return (now.day == day && now.month == month && now.year == year);
