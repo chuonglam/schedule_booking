@@ -47,3 +47,11 @@ class ParticipantIsHost extends AppError {
 class MissingArguments extends AppError {
   MissingArguments([super.message = 'Missing Arguments']);
 }
+
+class FieldRequired extends AppError {
+  FieldRequired([super.message = 'This field is required']);
+}
+
+class FieldInvalid extends AppError {
+  FieldInvalid([super.message = 'This field is invalid']);
+}

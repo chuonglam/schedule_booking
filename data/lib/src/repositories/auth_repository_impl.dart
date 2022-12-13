@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:data/data.dart';
 import 'package:data/src/network/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +21,17 @@ class AuthRepositoryImpl implements AuthRepository {
     } on AppError catch (e) {
       return AppResult.error(e);
     } on Exception catch (e) {
-      return AppResult.error(DefaultError());
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 
   @override
   Future<AppResult<bool>> logout() async {
     try {
-      final response = await _authService.logout();
+      await _authService.logout();
       return AppResult.success(true);
-    } catch (e) {
-      //todo: handle exs
-      return AppResult.error(DefaultError());
+    } on Exception catch (e) {
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 
@@ -43,6 +43,16 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
   }) async {
     try {
+      if (username.isEmpty || password.isEmpty || email.isEmpty) {
+        return AppResult.error(
+            FieldRequired("username, password, email are required"));
+      }
+      if (!username.isValidUsername()) {
+        return AppResult.error(FieldInvalid('Please input a valid username'));
+      }
+      if (!email.isValidEmail()) {
+        return AppResult.error(FieldInvalid('Please input a valid email'));
+      }
       final user = await _authService.signUp(
         username: username,
         password: password,

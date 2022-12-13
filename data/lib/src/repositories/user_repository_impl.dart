@@ -18,8 +18,7 @@ class UserRepositoryImpl implements UserRepository {
       final UserModel? user = await _userService.currentUser();
       return AppResult.success(user?.toUser());
     } catch (e) {
-      //todo: handle exceptions
-      return AppResult.error(DefaultError());
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 
@@ -34,7 +33,6 @@ class UserRepositoryImpl implements UserRepository {
   }) async {
     try {
       if (fromDate != null) {
-        if (fromTime != null) {}
         fromDate =
             fromDate.isToday() ? DateTime.now() : fromDate.beginningOfDay();
       }
@@ -51,8 +49,7 @@ class UserRepositoryImpl implements UserRepository {
       );
       return AppResult.success(data.map((e) => e.toUser()).toList());
     } catch (e) {
-      //todo: handle exceptions
-      return AppResult.error(DefaultError());
+      return AppResult.error(DefaultError(e.toString()));
     }
   }
 }
