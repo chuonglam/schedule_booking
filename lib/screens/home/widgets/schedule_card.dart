@@ -27,7 +27,7 @@ class ScheduleCard extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: schedule.endDate.isBefore(DateTime.now())
-                  ? const Color(0xFFDEDEDE) // Color(0xFFC7B7EB)
+                  ? const Color(0xFFDEDEDE)
                   : (schedule.startDate.isToday())
                       ? AppStyles.mainColor
                       : const Color(0xFFC7B7EB),
@@ -63,7 +63,7 @@ class ScheduleCard extends StatelessWidget {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      'assets/svg/ic_time.svg',
+                      'ic_time.svg'.svgPath,
                       color: const Color(0xFF757575),
                       width: 13,
                     ),
@@ -88,11 +88,10 @@ class ScheduleCard extends StatelessWidget {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      'assets/svg/ic_chat.svg',
+                      'ic_chat.svg'.svgPath,
                       width: 13,
                     ),
                     const SizedBox(width: 6),
-                    //todo: username
                     Text(
                       schedule.participant.displayName,
                       style: AppStyles.regular,

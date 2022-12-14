@@ -14,7 +14,6 @@ import 'package:schedule_booking/screens/create_schedule/widgets/pick_timeslot_w
 import 'package:schedule_booking/screens/create_schedule/widgets/pick_user_widget.dart';
 import 'package:schedule_booking/screens/home/user_schedule_controller.dart';
 import 'package:schedule_booking/screens/main/main_controller.dart';
-import 'package:schedule_booking/screens/main/main_screen.dart';
 
 class CreateScheduleScreen extends GetView<CreateScheduleController> {
   const CreateScheduleScreen({super.key});

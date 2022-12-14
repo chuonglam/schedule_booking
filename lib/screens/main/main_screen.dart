@@ -1,14 +1,12 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:schedule_booking/common/widgets/logo.dart';
 import 'package:schedule_booking/common/widgets/user_menu.dart';
-import 'package:schedule_booking/screens/main/main_controller.dart';
 import 'package:schedule_booking/screens/main/widgets/main_body.dart';
 import 'package:schedule_booking/screens/main/widgets/navigation_bar.dart';
 import 'package:schedule_booking/screens/main/widgets/navigation_rails.dart';
 
-class MainScreen extends GetView<MainController> {
+class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override

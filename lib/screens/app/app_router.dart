@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:schedule_booking/di/sl.dart';
 import 'package:schedule_booking/screens/auth/login_screen.dart';
 import 'package:schedule_booking/screens/auth/signup_controller.dart';
