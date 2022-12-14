@@ -169,6 +169,16 @@ Filter popup (mobile) | Create schedule success (mobile) | User's schedules
 <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/filter_mobile_popup_1.png?raw=true" width="400" /> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/create_schedule_mobile_success.gif?raw=true" width=""  /> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/user_schedules_mobile.png?raw=true" width="400"  />
 
 
+Filter popup (mobile) | Create schedule success (mobile) | User's schedules
+--- | --- | --- |
+<img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/filter_mobile_popup_1.png?raw=true" width="400" /> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/create_schedule_mobile_success.gif?raw=true" width=""  /> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/user_schedules_mobile.png?raw=true" width="400"  />
+
+
 Sign up (tablet) | Login (tablet)
 --- | --- | 
 <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/signup_tablet.gif?raw=true" height = ""/> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/login_tablet.gif?raw=true" height=""  />
+
+
+User's schedules (tablet) | Filter popup (tablet) | Create schedule (tablet)
+--- | --- | --- |
+<img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/user_schedules_tablet.png?raw=true" height = ""/> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/filter_tablet_popup.png?raw=true" height=""/> | <img src="https://github.com/chuonglam/schedule_booking/blob/develop/screenshots/create_schedule_tablet.png?raw=true" height=""/>
