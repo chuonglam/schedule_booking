@@ -149,15 +149,17 @@ class CreateScheduleController extends GetxController with LoadingController {
   }
 
   bool _isScheduleOverlapsed(TimeRegion selectedRegion) {
-    return selectedRegion.isOverlapsed(busyAreas
+    return selectedRegion.isOverlapped(busyAreas
         .map((e) => TimeRegion(startTime: e.startDate, endTime: e.endDate))
         .toList());
   }
 
-  Future<String?> createSchedule() async {
+  Future<void> createSchedule() async {
+    error = null;
     if (_isScheduleOverlapsed(state.toTimeRegion())) {
       return Future.delayed(const Duration(milliseconds: 300), () {
-        return Future.value('Time overlaps');
+        error = 'Time overlaps';
+        return;
       });
     }
     final result = await _scheduleRepository.createSchedule(
@@ -166,9 +168,10 @@ class CreateScheduleController extends GetxController with LoadingController {
       participantId: state.selectedUser?.id,
     );
     if (result.success) {
-      return null;
+      error = null;
+      return;
     }
-    return result.error?.message;
+    error = result.error?.message;
   }
 
   void _resetState() {
@@ -186,7 +189,7 @@ class CreateScheduleController extends GetxController with LoadingController {
     _rxFilter.value = null;
   }
 
-  void searchUsers() async {
+  Future<void> searchUsers() async {
     if (isLoading) {
       return;
     }

@@ -128,9 +128,8 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
     if (negative != false) {
       return;
     }
-    final String? errorMessage = await controller.createSchedule();
-    if (errorMessage == null) {
-      // Get.offNamedUntil('/$MainScreen', (route) => true);
+    await controller.createSchedule();
+    if (controller.error == null) {
       controller.resetAll();
       MainController.instance?.reset();
       UserScheduleController.instance?.doRefreshData();
@@ -139,7 +138,7 @@ class CreateScheduleScreen extends GetView<CreateScheduleController> {
     context.dialog(
       title: 'Error',
       icon: const AppLogo(),
-      content: Text(errorMessage),
+      content: Text(controller.error ?? ''),
     );
   }
 

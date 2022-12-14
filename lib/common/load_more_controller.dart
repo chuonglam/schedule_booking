@@ -56,7 +56,15 @@ mixin LoadMoreController<T> on GetxController {
     _loadData(0);
   }
 
+  @visibleForTesting
+  Future<void> loadMore(int skip) {
+    return _loadData(skip);
+  }
+
   Future<void> _loadData(int skip, [int limit = pageSize]) async {
+    if (!_canLoadMore) {
+      return;
+    }
     _loading.value = true;
     final res = await loadData(skip, limit);
     if (res.success) {

@@ -1,7 +1,7 @@
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension TimeRegionX on TimeRegion {
-  bool isOverlapsed(List<TimeRegion> busyAreas) {
+  bool isOverlapped(List<TimeRegion> busyAreas) {
     return busyAreas.any((timeRegion) => _dateRangeOverlaps(this, timeRegion));
   }
 

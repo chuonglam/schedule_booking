@@ -1,7 +1,7 @@
 import 'package:data/data.dart';
 
 abstract class ScheduleRepository {
-  Future<AppResult<String>> createSchedule({
+  Future<AppResult<bool>> createSchedule({
     required DateTime startDate,
     required Duration duration,
     String? participantId,

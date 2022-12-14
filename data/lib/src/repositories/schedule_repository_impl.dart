@@ -15,7 +15,7 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
         _userService = userService;
 
   @override
-  Future<AppResult<String>> createSchedule({
+  Future<AppResult<bool>> createSchedule({
     required DateTime startDate,
     required Duration duration,
     String? participantId,
@@ -24,12 +24,12 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
       if (participantId == null) {
         return AppResult.error(UserNotPicked());
       }
-      final res = await _scheduleService.createSchedule(
+      await _scheduleService.createSchedule(
         startDate: startDate,
         endDate: startDate.add(duration),
         participantId: participantId,
       );
-      return AppResult.success(res);
+      return AppResult.success(true);
     } on AppError catch (e) {
       return AppResult.error(e);
     } on Exception catch (e) {

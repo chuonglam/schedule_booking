@@ -8,7 +8,7 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 @Singleton()
 class ScheduleService {
-  Future<String> createSchedule({
+  Future<void> createSchedule({
     required DateTime startDate,
     required DateTime endDate,
     required String participantId,
@@ -29,7 +29,7 @@ class ScheduleService {
       'beginningOfDay': startOfDay.toUtc().toString(),
     });
     if (res.success) {
-      return 'success';
+      return;
     }
     if (res.error?.code == 400) {
       throw ParticipantIsHost();
