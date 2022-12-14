@@ -139,4 +139,42 @@ void main() {
       expect(scheduleController.retry, true);
     },
   );
+
+  test(
+    'should be able to reload if select another date',
+    () async {
+      final result = MockListSchedulesAppResult();
+      final List<MockSchedule> data =
+          List.generate(pageSize - 1, (idx) => MockSchedule());
+      when(() => result.data).thenReturn(data);
+      when(() => result.success).thenReturn(true);
+      when(() => result.error).thenReturn(null);
+      when(() => scheduleRepository.getUserTimeSlots(
+            limit: any<int>(named: 'limit'),
+            skip: any<int>(named: 'skip'),
+            date: any<DateTime>(named: 'date'),
+          )).thenAnswer((_) async => result);
+
+      Get.put(scheduleController);
+      verify(
+        () => scheduleRepository.getUserTimeSlots(
+          limit: any<int>(named: 'limit'),
+          skip: any<int>(named: 'skip'),
+          date: any<DateTime>(named: 'date'),
+        ),
+      ).called(1);
+      await Future.delayed(const Duration(seconds: 1));
+      expect(scheduleController.data.length, data.length);
+      await scheduleController.loadMore(data.length);
+      expect(scheduleController.data.length, data.length);
+
+      scheduleController.clear();
+      expect(scheduleController.data.length, 0);
+
+      scheduleController.selectedDate =
+          DateTime.now().add(const Duration(days: 1));
+      await Future.delayed(const Duration(seconds: 1));
+      expect(scheduleController.data.length, data.length);
+    },
+  );
 }

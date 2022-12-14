@@ -49,11 +49,17 @@ mixin LoadMoreController<T> on GetxController {
   }
 
   Future<void> doRefreshData() async {
+    _canLoadMore = true;
     await _loadData(0);
   }
 
   void retryFirstPage() {
     _loadData(0);
+  }
+
+  @visibleForTesting
+  void clear() {
+    _data.clear();
   }
 
   @visibleForTesting
